@@ -621,6 +621,8 @@ textarea {
   display: none;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 0.22rem;
   width: 3rem;
   height: 3rem;
   padding: 0;
@@ -636,13 +638,14 @@ textarea {
   display: block;
   width: 1.1rem;
   height: 2px;
+  flex: 0 0 auto;
   border-radius: 999px;
   background: currentColor;
   transition: transform 160ms ease, opacity 160ms ease;
 }
 
 .nav-toggle span + span {
-  margin-top: 0.22rem;
+  margin-top: 0;
 }
 
 .site-header[data-menu-open="true"] .nav-toggle span:nth-child(1) {

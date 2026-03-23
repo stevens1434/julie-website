@@ -25,6 +25,7 @@
 - Switching GitHub Pages publishing to a more reliable branch-based workflow.
 - Correcting the GitHub Pages project-site path handling so deployed subpages work outside the homepage.
 - Updating the mobile header to a hamburger menu so navigation fits properly on phones.
+- Refining the mobile hamburger icon so the toggle renders correctly in both open and closed states.
 
 ## Still To Do
 - Connect the live contact form and scheduling links.

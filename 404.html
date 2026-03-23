@@ -1,0 +1,567 @@
+<!DOCTYPE html><html lang="en" data-color-mode="light" data-creative-theme="standard"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="The page you requested could not be found."><meta name="theme-color" content="#edf4f1" id="theme-color-meta"><script>
+      (() => {
+        const storageKey = "julie-appearance-preferences";
+        const defaults = {
+          colorMode: "light",
+          creativeTheme: "standard"
+        };
+        const validOptions = {
+          colorMode: new Set(["light", "dark"]),
+          creativeTheme: new Set(["standard", "retro", "starwars", "jurassic", "er"])
+        };
+
+        const normalize = (value = {}) => {
+          const legacyRetroTheme =
+            value?.creativeTheme === "standard" && value?.eraMode === "retro" ? "retro" : value?.creativeTheme;
+
+          return {
+            colorMode: validOptions.colorMode.has(value?.colorMode) ? value.colorMode : defaults.colorMode,
+            creativeTheme: validOptions.creativeTheme.has(legacyRetroTheme) ? legacyRetroTheme : defaults.creativeTheme
+          };
+        };
+
+        const readStoredValue = () => {
+          try {
+            const raw = window.localStorage.getItem(storageKey);
+            return raw ? JSON.parse(raw) : null;
+          } catch (error) {
+            return null;
+          }
+        };
+
+        const read = () => normalize(readStoredValue() ?? defaults);
+
+        const readCurrent = () =>
+          normalize({
+            colorMode: document.documentElement.dataset.colorMode,
+            creativeTheme: document.documentElement.dataset.creativeTheme
+          });
+
+        const apply = (theme, persist = false, eventMeta = { reason: "programmatic" }) => {
+          const normalized = normalize(theme);
+          const root = document.documentElement;
+          const previous = readCurrent();
+          root.dataset.colorMode = normalized.colorMode;
+          root.dataset.creativeTheme = normalized.creativeTheme;
+          root.style.colorScheme =
+            normalized.creativeTheme === "starwars" || normalized.creativeTheme === "jurassic"
+              ? "dark"
+              : normalized.creativeTheme === "retro" || normalized.creativeTheme === "er"
+                ? "light"
+              : normalized.colorMode === "dark"
+                ? "dark"
+                : "light";
+
+          const themeColorMeta = document.getElementById("theme-color-meta");
+          if (themeColorMeta) {
+            const themeColor =
+              normalized.creativeTheme === "retro"
+                ? "#efe5cb"
+                : normalized.creativeTheme === "starwars"
+                  ? "#040916"
+                  : normalized.creativeTheme === "jurassic"
+                    ? "#1a2816"
+                    : normalized.creativeTheme === "er"
+                      ? "#edf7f8"
+                    : normalized.colorMode === "dark"
+                      ? "#0d1518"
+                      : "#edf4f1";
+            themeColorMeta.setAttribute("content", themeColor);
+          }
+
+          if (persist) {
+            try {
+              window.localStorage.setItem(storageKey, JSON.stringify(normalized));
+            } catch (error) {
+            }
+          }
+
+          window.dispatchEvent(
+            new CustomEvent("julie-theme-change", {
+              detail: {
+                ...normalized,
+                __meta: eventMeta,
+                __previous: previous
+              }
+            })
+          );
+          return normalized;
+        };
+
+        window.__JULIE_THEME__ = {
+          defaults,
+          read,
+          apply
+        };
+
+        const storedValue = readStoredValue();
+        const normalizedStoredValue = normalize(storedValue ?? defaults);
+        const shouldPersistMigration =
+          Boolean(storedValue) &&
+          typeof storedValue === "object" &&
+          Object.keys(storedValue).some((key) => !["colorMode", "creativeTheme"].includes(key));
+
+        apply(normalizedStoredValue, shouldPersistMigration, { reason: "boot" });
+      })();
+    </script><meta property="og:type" content="website"><meta property="og:title" content="Page Not Found | Julie Stevens"><meta property="og:description" content="The page you requested could not be found."><meta property="og:image" content="https://res.cloudinary.com/stevens1434/image/upload/v1774275510/Other/julie.png"><link rel="canonical" href="https://stevens1434.github.io/julie-website/404"><link rel="icon" type="image/svg+xml" href="/julie-website/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Julie Stevens","honorificSuffix":"BSN, RN, CPN","jobTitle":"Doctor of Nursing Practice - Family Nurse Practitioner Student","description":"The page you requested could not be found.","email":"mailto:juritter@med.umich.edu","address":{"@type":"PostalAddress","addressRegion":"Michigan","addressCountry":"US"},"alumniOf":[{"@type":"CollegeOrUniversity","name":"University of Michigan-Flint"},{"@type":"CollegeOrUniversity","name":"University of Washington"}],"sameAs":["https://www.linkedin.com/in/julie-stevens-bsn-rn-cpn-3a48824a"],"knowsAbout":["Family-centered primary care","Rural and underserved access","High-acuity clinical judgment"],"url":"https://stevens1434.github.io/julie-website/404","image":"https://res.cloudinary.com/stevens1434/image/upload/v1774275510/Other/julie.png"}</script><title>Page Not Found | Julie Stevens</title><link rel="stylesheet" href="/julie-website/_astro/clinical-experience.0wIlQo_7.css"></head> <body> <a class="skip-link" href="#main">Skip to content</a> <div class="site-shell"> <div class="site-core" data-site-core> <header class="site-header"> <div class="shell shell--wide header-inner"> <a class="brand-lockup" href="/julie-website/"> <span class="brand-eyebrow">DNP-FNP Candidate</span> <span class="brand-name">Julie Stevens</span> </a> <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation menu" data-nav-toggle> <span></span> <span></span> <span></span> </button> <nav id="primary-navigation" aria-label="Primary" data-nav-menu> <ul class="nav-list"> <li> <a href="/julie-website/"> Home </a> </li><li> <a href="/julie-website/clinical-experience"> Clinical Experience </a> </li><li> <a href="/julie-website/leadership-scholarship"> Leadership &amp; Scholarship </a> </li><li> <a href="/julie-website/cv-contact"> CV &amp; Contact </a> </li> </ul> </nav> </div> </header> <script>
+  (() => {
+    const header = document.querySelector(".site-header");
+    const toggle = header?.querySelector("[data-nav-toggle]");
+    const menu = header?.querySelector("[data-nav-menu]");
+
+    if (!header || !toggle || !menu) return;
+
+    const closeMenu = () => {
+      header.dataset.menuOpen = "false";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Open navigation menu");
+    };
+
+    const openMenu = () => {
+      header.dataset.menuOpen = "true";
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.setAttribute("aria-label", "Close navigation menu");
+    };
+
+    const isDesktop = () => window.innerWidth > 760;
+
+    toggle.addEventListener("click", () => {
+      if (header.dataset.menuOpen === "true") {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (isDesktop() || header.dataset.menuOpen !== "true") return;
+      if (!header.contains(event.target)) closeMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (!isDesktop()) closeMenu();
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      if (isDesktop()) closeMenu();
+    });
+
+    closeMenu();
+  })();
+</script> <main id="main" class="page-shell">  <section class="content-section"> <div class="section-card callout-card"> <p class="eyebrow">404</p> <h1 class="page-title">Page not found</h1> <p>The requested page does not exist. Use the main navigation or return to the homepage.</p> <a class="button" href="/julie-website/">Return Home</a> </div> </section>  </main> <footer class="site-footer"> <div class="shell shell--wide footer-inner"> <div> <p class="footer-title">Julie Stevens</p> <p class="footer-copy">
+Employer portfolio for a nurse leader transitioning from extensive bedside practice into family nurse practitioner care.
+</p> </div> <div class="footer-links"> <a href="mailto:juritter@med.umich.edu">juritter@med.umich.edu</a> <a href="https://www.linkedin.com/in/julie-stevens-bsn-rn-cpn-3a48824a" target="_blank" rel="noreferrer">LinkedIn</a> <a href="/julie-website/cv-contact">CV & Contact</a> </div> </div> </footer> </div> <div class="immersive-theme-hub" data-immersive-hub hidden aria-hidden="true"> <section class="immersive-shell immersive-shell--retro" data-immersive-shell="retro" hidden aria-hidden="true"> <div class="retro-shell" data-retro-page="contact" style="--retro-wallpaper: url(https://res.cloudinary.com/stevens1434/image/upload/v1774293978/Other/Bliss__28Windows_XP_29.png);"> <div class="retro-shell__desktop"> <div class="retro-shell__wallpaper" aria-hidden="true"></div> <nav class="retro-shell__shortcuts" aria-label="Retro desktop shortcuts"> <a href="/julie-website/"> <span class="retro-shell__shortcut-frame"> <img class="retro-shell__shortcut-logo" src="/julie-website/retro/icons/my-computer.svg" alt="" loading="lazy"> </span> <span>My Computer</span> </a><a href="/julie-website/clinical-experience"> <span class="retro-shell__shortcut-frame"> <img class="retro-shell__shortcut-logo" src="/julie-website/retro/icons/internet-explorer.svg" alt="" loading="lazy"> </span> <span>Internet Explorer</span> </a><a href="/julie-website/leadership-scholarship"> <span class="retro-shell__shortcut-frame"> <img class="retro-shell__shortcut-logo" src="/julie-website/retro/icons/outlook-express.svg" alt="" loading="lazy"> </span> <span>Outlook Express</span> </a><a href="/julie-website/cv-contact"> <span class="retro-shell__shortcut-frame"> <img class="retro-shell__shortcut-logo" src="/julie-website/retro/icons/napster.svg" alt="" loading="lazy"> </span> <span>Napster</span> </a> </nav> <div class="retro-shell__workspace">    <section class="xp-window xp-window--napster" data-retro-window data-default-view="overview"> <header class="xp-window__titlebar"> <div class="xp-window__title"> <img class="xp-window__title-logo" src="/julie-website/retro/icons/my-computer.svg" alt="" loading="lazy"> <span>Julie Stevens Portfolio Properties</span> </div> <div class="xp-window__controls" aria-hidden="true"> <span></span><span></span><span></span> </div> </header> <div class="xp-window__chrome"> <div class="xp-window__toolbar xp-window__toolbar--napster"> <button type="button">Search</button> <button type="button">Transfers</button> <button type="button">Hotlist</button> <button type="button">Chat</button> </div> <div class="xp-napster"> <aside class="xp-napster__sidebar"> <div class="xp-napster__logo-mark"> <img src="/julie-website/retro/icons/my-computer.svg" alt="" loading="lazy"> </div> <ul> <li> <button type="button" data-retro-view-trigger data-retro-view="overview"> CV &amp; Contact </button> </li><li> <button type="button" data-retro-view-trigger data-retro-view="summary"> Summary of Qualifications </button> </li><li> <button type="button" data-retro-view-trigger data-retro-view="education"> Education </button> </li><li> <button type="button" data-retro-view-trigger data-retro-view="credentials"> Credentials &amp; Certifications </button> </li><li> <button type="button" data-retro-view-trigger data-retro-view="experience"> Professional Experience </button> </li><li> <button type="button" data-retro-view-trigger data-retro-view="contact"> Contact </button> </li> </ul> </aside> <section class="xp-napster__library"> <header> <h1>What’s in your download queue?</h1> <p>Fun styling first, but the actual employer contact options still live here.</p> </header> <div class="xp-panel-scroll xp-panel-scroll--napster"> <section class="xp-panel" data-retro-view-panel="overview"> <p class="xp-panel__label">CV & Contact</p> <h2>Professional qualifications and employer contact options</h2> <p>This page is structured as a print-friendly curriculum vitae with direct contact pathways for interview requests and employer outreach.</p> <div class="xp-napster__actions"> <button class="xp-inline-button" type="button" onclick="window.print()">Print-Friendly CV</button>  </div> </section> <section class="xp-panel" data-retro-view-panel="summary" hidden> <p class="xp-panel__label">Summary of Qualifications</p> <ul class="xp-bullet-list"> <li>Over 16 years of bedside clinical nursing experience spanning adult and pediatric medical-surgical units, intensive care, interventional radiology, and pediatric dialysis.</li><li>More than four years of experience caring for patients with chronic kidney disease, including pediatric patients from 18 months to 23 years old.</li><li>Consistently recognized for leadership, communication, organization, critical thinking, and time management.</li><li>Skilled in family-centered care and interdisciplinary collaboration with patients and families from diverse cultural backgrounds.</li><li>Experienced with EPIC, Cerner, Microsoft Word, Excel, Office, and Teams.</li> </ul> </section> <section class="xp-panel" data-retro-view-panel="education" hidden> <p class="xp-panel__label">Education</p> <div class="xp-stack"> <article class="xp-card"> <h3>Doctor of Nursing Practice - Family Nurse Practitioner</h3> <p>University of Michigan-Flint</p> <p>Flint, Michigan</p> <p class="xp-muted">August 2023 to April 2027</p> </article><article class="xp-card"> <h3>Bachelor of Science in Nursing</h3> <p>University of Washington</p> <p>Bothell, Washington</p> <p class="xp-muted">June 2016</p> </article><article class="xp-card"> <h3>Associate Degree in Nursing</h3> <p>Everett Community College</p> <p>Everett, Washington</p> <p class="xp-muted">March 2015</p> </article><article class="xp-card"> <h3>Associate of Applied Science Degree - Licensed Practical Nursing</h3> <p>North Seattle Community College</p> <p>Seattle, Washington</p> <p class="xp-muted">August 2009 to March 2015</p> </article> </div> </section> <section class="xp-panel" data-retro-view-panel="credentials" hidden> <p class="xp-panel__label">Credentials & Certifications</p> <div class="xp-stack"> <article class="xp-card xp-card--compact"> <h3>Certified Pediatric Nurse</h3> <p>PNCB</p> <p class="xp-muted">2016 to 2027</p> </article><article class="xp-card xp-card--compact"> <h3>Basic Life Support for Healthcare Providers</h3> <p>BLS</p> <p class="xp-muted">Current through 2027</p> </article><article class="xp-card xp-card--compact"> <h3>Pediatric Advanced Life Support</h3> <p>PALS</p> <p class="xp-muted">Current through 2027</p> </article><article class="xp-card xp-card--compact"> <h3>Advanced Cardiovascular Life Support</h3> <p>ACLS</p> <p class="xp-muted">Current through 2027</p> </article><article class="xp-card xp-card--compact"> <h3>Registered Nurse, State of Michigan</h3> <p>State of Michigan</p> <p class="xp-muted">2018 to 2028</p> </article><article class="xp-card xp-card--compact"> <h3>Sigma Theta Tau Honor Society of Nursing</h3> <p>Sigma Theta Tau</p> <p class="xp-muted">2014 to 2016</p> </article> </div> </section> <section class="xp-panel" data-retro-view-panel="experience" hidden> <p class="xp-panel__label">Professional Experience</p> <div class="xp-stack"> <article class="xp-card"> <h3>Registered Nurse, Pediatric Dialysis Unit</h3> <p>University of Michigan C.S. Mott Children&#39;s Hospital</p> <p class="xp-muted">Ann Arbor, Michigan | February 2022 to Present</p> <ul class="xp-bullet-list xp-bullet-list--compact"> <li>Provide acute and outpatient dialysis care in one of only three pediatric dialysis units in Michigan.</li><li>Perform and monitor hemodialysis and peritoneal dialysis with thorough pre-, intra-, and post-dialysis assessment.</li><li>Assess dialysis access, monitor fluid balance and hemodynamic stability, and respond to dialysis-related complications.</li><li>Coordinate family-centered education and collaborate with nephrologists, dietitians, social workers, and technicians.</li> </ul> </article><article class="xp-card"> <h3>Registered Nurse, Pediatric Intensive Care Unit</h3> <p>University of Michigan C.S. Mott Children&#39;s Hospital</p> <p class="xp-muted">Ann Arbor, Michigan | October 2020 to 2023</p> <ul class="xp-bullet-list xp-bullet-list--compact"> <li>Cared for critically ill pediatric patients in a Level 1 trauma center using invasive and noninvasive respiratory and hemodynamic support.</li><li>Safely recovered patients from the operating room, interventional radiology, MRI, and bedside procedures.</li><li>Provided and managed sedation under physician supervision and supported complex therapies including CRRT and ECMO.</li> </ul> </article><article class="xp-card"> <h3>Registered Nurse, Adult Stepdown Intensive Care Unit</h3> <p>Detroit Medical Center, Huron Valley-Sinai Hospital</p> <p class="xp-muted">Commerce Township, Michigan | August 2020 to November 2020</p> <ul class="xp-bullet-list xp-bullet-list--compact"> <li>Managed critically ill adult patients diagnosed with COVID-19 in a high-acuity step-down intensive care environment.</li><li>Monitored respiratory status, hemodynamic support, laboratory trends, and postoperative recovery needs.</li> </ul> </article><article class="xp-card"> <h3>Travel Nurse, Pediatric Intensive Care Unit</h3> <p>AYA Healthcare at Bronson Children&#39;s Hospital</p> <p class="xp-muted">Kalamazoo, Michigan | March 2020 to June 2020</p> <ul class="xp-bullet-list xp-bullet-list--compact"> <li>Delivered critical care to pediatric patients from newborn through young adulthood in a Level 1 trauma and burn center.</li><li>Managed sedation and complex lines, drains, and ventilatory support in a travel assignment setting.</li> </ul> </article><article class="xp-card"> <h3>Registered Nurse, Pediatric Critical Care Central Staffing Resource</h3> <p>University of Michigan C.S. Mott Children&#39;s Hospital</p> <p class="xp-muted">Ann Arbor, Michigan | May 2019 to March 2020</p> <ul class="xp-bullet-list xp-bullet-list--compact"> <li>Floated across the PICU, pediatric cardiothoracic unit, and Level 4 NICU caring for newborn through young adult populations.</li><li>Administered specialized IV medications, supported ventilatory care, and coordinated care for highly specialized pediatric patients.</li> </ul> </article><article class="xp-card"> <h3>Travel Nurse, Pediatric and Cardiac Intensive Care Units</h3> <p>RTG Medical at Helen DeVos Children&#39;s Hospital</p> <p class="xp-muted">Grand Rapids, Michigan | April 2019 to December 2019</p> <ul class="xp-bullet-list xp-bullet-list--compact"> <li>Cared for critically ill pediatric and neonatal patients with congenital cardiac conditions and postoperative cardiac surgery needs.</li><li>Managed advanced drains, lines, respiratory support, and immediate post-procedural recovery.</li> </ul> </article><article class="xp-card"> <h3>Travel Nurse, Pediatric and Cardiac Intensive Care Units</h3> <p>Cross Country Travel Corp at Children&#39;s Hospital of Minnesota</p> <p class="xp-muted">Minneapolis, Minnesota | January 2019 to April 2019</p> <ul class="xp-bullet-list xp-bullet-list--compact"> <li>Supported critically ill pediatric patients and newborns with congenital cardiac conditions through intensive-care and post-surgical recovery.</li><li>Worked with advanced monitoring and therapies including inhaled nitric oxide, CRRT, and ECMO-related care.</li> </ul> </article> </div> </section> <section class="xp-panel" data-retro-view-panel="contact" hidden> <p class="xp-panel__label">Contact</p> <div class="xp-stack"> <article class="xp-card xp-card--compact"> <h3>Email</h3> <a href="mailto:juritter@med.umich.edu">juritter@med.umich.edu</a> </article> <article class="xp-card xp-card--compact"> <h3>LinkedIn</h3> <a href="https://www.linkedin.com/in/julie-stevens-bsn-rn-cpn-3a48824a" target="_blank" rel="noreferrer">Open LinkedIn profile</a> </article> <article class="xp-card xp-card--compact"> <h3>Interview Scheduling</h3> <p>Direct scheduling link pending activation.</p> </article> <article class="xp-card xp-card--compact"> <h3>References</h3> <p>References are available upon request.</p> </article> </div> </section> </div> </section> <section class="xp-napster__queue"> <div class="xp-napster__queue-head"> <h2>Message Queue</h2> <p>Share a direct employer note.</p> </div> <div class="section-card muted-card"><p class="card-label">Employer Inquiry Form</p><h3>Form endpoint pending activation</h3><p>
+A direct employer inquiry form can be activated as soon as Julie finalizes her preferred submission workflow. Until then,
+        please use the email or LinkedIn options on this page.
+</p></div> </section> </div> </div> </section> </div> <div class="retro-start-menu" id="retro-start-menu" hidden data-start-menu> <div class="retro-start-menu__header"> <div class="retro-start-menu__avatar" aria-hidden="true"></div> <div> <strong>Julie Stevens</strong> <span>Portfolio desktop</span> </div> </div> <nav class="retro-start-menu__apps" aria-label="Start menu applications"> <a href="/julie-website/"> <img src="/julie-website/retro/icons/my-computer.svg" alt="" loading="lazy"> <span>My Computer</span> </a><a href="/julie-website/clinical-experience"> <img src="/julie-website/retro/icons/internet-explorer.svg" alt="" loading="lazy"> <span>Internet Explorer</span> </a><a href="/julie-website/leadership-scholarship"> <img src="/julie-website/retro/icons/outlook-express.svg" alt="" loading="lazy"> <span>Outlook Express</span> </a><a href="/julie-website/cv-contact"> <img src="/julie-website/retro/icons/napster.svg" alt="" loading="lazy"> <span>Napster</span> </a> </nav> </div> <button class="retro-clippy" type="button" data-retro-theme-launcher aria-label="Change retro theme"> <img src="https://res.cloudinary.com/stevens1434/image/upload/v1774287425/Other/clippy.png" alt="" loading="lazy"> <span> <strong>Need a new theme?</strong> <small>Click Clippy to change the look.</small> </span> </button> </div> <footer class="retro-taskbar"> <button class="retro-taskbar__start" type="button" data-start-toggle aria-expanded="false" aria-controls="retro-start-menu" aria-haspopup="menu"> <span class="retro-taskbar__start-orb" aria-hidden="true"></span>
+start
+</button> <nav class="retro-taskbar__apps" aria-label="Retro taskbar applications"> <a href="/julie-website/"> <img class="retro-taskbar__app-logo" src="/julie-website/retro/icons/my-computer.svg" alt="" loading="lazy"> <span>Desktop</span> </a><a href="/julie-website/clinical-experience"> <img class="retro-taskbar__app-logo" src="/julie-website/retro/icons/internet-explorer.svg" alt="" loading="lazy"> <span>Clinical</span> </a><a href="/julie-website/leadership-scholarship"> <img class="retro-taskbar__app-logo" src="/julie-website/retro/icons/outlook-express.svg" alt="" loading="lazy"> <span>Leadership</span> </a><a href="/julie-website/cv-contact"> <img class="retro-taskbar__app-logo" src="/julie-website/retro/icons/napster.svg" alt="" loading="lazy"> <span>CV &amp; Contact</span> </a> </nav> <div class="retro-taskbar__tray"> <span class="retro-taskbar__tray-icons" aria-hidden="true"></span> <span data-retro-clock>4:44 PM</span> </div> </footer> </div> <script>
+  (() => {
+    const shell = document.querySelector(".retro-shell");
+    if (!shell) return;
+
+    const launchers = shell.querySelectorAll("[data-retro-theme-launcher]");
+    const clockNodes = shell.querySelectorAll("[data-retro-clock]");
+    const startToggle = shell.querySelector("[data-start-toggle]");
+    const startMenu = shell.querySelector("[data-start-menu]");
+
+    const syncClock = () => {
+      const formatter = new Intl.DateTimeFormat([], {
+        hour: "numeric",
+        minute: "2-digit"
+      });
+
+      clockNodes.forEach((node) => {
+        node.textContent = formatter.format(new Date());
+      });
+    };
+
+    const setStartOpen = (isOpen) => {
+      if (!startMenu || !startToggle) return;
+      startMenu.hidden = !isOpen;
+      startToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      shell.dataset.startOpen = isOpen ? "true" : "false";
+    };
+
+    const bindWindow = (windowEl) => {
+      if (windowEl.dataset.bound === "true") return;
+      windowEl.dataset.bound = "true";
+
+      const defaultView = windowEl.getAttribute("data-default-view");
+      const triggers = Array.from(windowEl.querySelectorAll("[data-retro-view-trigger]"));
+      const panels = Array.from(windowEl.querySelectorAll("[data-retro-view-panel]"));
+
+      const setView = (view) => {
+        triggers.forEach((trigger) => {
+          const isActive = trigger.getAttribute("data-retro-view") === view;
+          trigger.dataset.active = isActive ? "true" : "false";
+          trigger.setAttribute("aria-pressed", isActive ? "true" : "false");
+          if (trigger.closest("li")) {
+            trigger.closest("li").dataset.active = isActive ? "true" : "false";
+          }
+        });
+
+        panels.forEach((panel) => {
+          const isActive = panel.getAttribute("data-retro-view-panel") === view;
+          panel.hidden = !isActive;
+          panel.setAttribute("aria-hidden", isActive ? "false" : "true");
+        });
+      };
+
+      triggers.forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          setView(trigger.getAttribute("data-retro-view"));
+        });
+      });
+
+      setView(defaultView || triggers[0]?.getAttribute("data-retro-view"));
+    };
+
+    syncClock();
+    window.setInterval(syncClock, 60000);
+
+    launchers.forEach((launcher) => {
+      if (launcher.dataset.bound === "true") return;
+      launcher.dataset.bound = "true";
+
+      launcher.addEventListener("click", () => {
+        window.dispatchEvent(new CustomEvent("julie-theme-panel-toggle", { detail: { open: true } }));
+      });
+    });
+
+    if (startToggle && startMenu) {
+      startToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        setStartOpen(shell.dataset.startOpen !== "true");
+      });
+
+      document.addEventListener("click", (event) => {
+        if (shell.dataset.startOpen !== "true") return;
+        if (!startMenu.contains(event.target) && !startToggle.contains(event.target)) {
+          setStartOpen(false);
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          setStartOpen(false);
+        }
+      });
+    }
+
+    shell.querySelectorAll("[data-retro-window]").forEach(bindWindow);
+  })();
+</script> </section> <section class="immersive-shell immersive-shell--starwars" data-immersive-shell="starwars" hidden aria-hidden="true"> <div class="starwars-shell"> <div class="starwars-shell__scene" aria-hidden="true"> <span class="starwars-shell__stars"></span> <span class="starwars-shell__planet starwars-shell__planet--a"></span> <span class="starwars-shell__planet starwars-shell__planet--b"></span> <span class="starwars-shell__fighter starwars-shell__fighter--hero"></span> <span class="starwars-shell__fighter starwars-shell__fighter--tie"></span> <span class="starwars-shell__laser starwars-shell__laser--blue"></span> <span class="starwars-shell__laser starwars-shell__laser--red"></span> </div> <div class="starwars-shell__viewport"> <header class="starwars-shell__masthead"> <div class="starwars-shell__brand"> <p class="starwars-shell__zone">Command Bridge</p> <h2>Julie Stevens</h2> </div> <nav class="starwars-nav" aria-label="Star Wars navigation"> <a href="/julie-website/"> Home </a><a href="/julie-website/clinical-experience"> Clinical Experience </a><a href="/julie-website/leadership-scholarship"> Leadership &amp; Scholarship </a><a href="/julie-website/cv-contact"> CV &amp; Contact </a> </nav> </header> <main class="starwars-shell__content"> <section class="starwars-hero"> <div class="starwars-hero__copy"> <p class="starwars-hero__eyebrow">Opening Mission Briefing</p> <h1>Julie Stevens enters the primary-care frontier</h1> <p class="starwars-hero__subtitle">Doctor of Nursing Practice - Family Nurse Practitioner Student // University of Michigan-Flint</p> <p class="starwars-hero__lede">A veteran bedside nurse is stepping onto a larger healthcare frontier, bringing critical-care judgment, family-centered communication, and an equity-focused practice arc into family nurse practitioner care.</p> <div class="starwars-hero__actions"> <a class="starwars-action" href="/julie-website/cv-contact"> Open CV &amp; Contact </a> <a class="starwars-action starwars-action--secondary" href="/julie-website/clinical-experience"> View Clinical Campaign </a> </div> <ul class="starwars-tags"> <li>University of Michigan-Flint DNP-FNP student</li><li>Michigan-based clinical practice</li><li>Critical care to primary care trajectory</li> </ul> </div> <aside class="starwars-hero__aside"> <div class="starwars-hologram"> <div class="starwars-hologram__portrait"> <img src="https://res.cloudinary.com/stevens1434/image/upload/v1774275510/Other/julie.png" alt="Portrait of Julie Stevens with arms crossed"> </div> <div class="starwars-hologram__brief"> <p class="starwars-panel__eyebrow">Hologram Briefing</p> <h2>Clinical depth with a prevention-focused future</h2> <p>Julie brings pediatric nephrology, PICU, cardiac intensive care, travel nursing, and community-based advanced practice training into a polished, employer-ready profile.</p> <a class="starwars-panel__link" href="https://www.linkedin.com/in/julie-stevens-bsn-rn-cpn-3a48824a" target="_blank" rel="noreferrer"> Transmit to LinkedIn </a> </div> </div> </aside> </section> <section class="starwars-metrics" aria-label="Star Wars route metrics"> <article class="starwars-metric"> <p class="starwars-metric__value">16+</p> <h3>Years of bedside nursing</h3> <p>Adult, pediatric, critical care, radiology, and nephrology practice.</p> </article><article class="starwars-metric"> <p class="starwars-metric__value">2027</p> <h3>DNP-FNP graduation target</h3> <p>Doctor of Nursing Practice, University of Michigan-Flint.</p> </article><article class="starwars-metric"> <p class="starwars-metric__value">8</p> <h3>Advanced practice rotations listed</h3> <p>Primary care, pediatrics, FQHC, sports medicine, and allergy/asthma.</p> </article><article class="starwars-metric"> <p class="starwars-metric__value">Across the lifespan</p> <h3>Patient-care perspective</h3> <p>Family-centered care from infancy through adulthood.</p> </article> </section> <section class="starwars-sector"> <div class="starwars-sector__heading"> <p class="starwars-sector__eyebrow">Mission Priorities</p> <h2>What this campaign is built to protect</h2>  </div> <div class="starwars-sector__grid"> <article class="starwars-panel"> <p class="starwars-panel__eyebrow">Priority Target</p> <h3>Family-centered primary care</h3> <p>Julie is preparing for family nurse practitioner practice with a patient-centered approach grounded in prevention, education, and continuity across the lifespan.</p>    </article><article class="starwars-panel"> <p class="starwars-panel__eyebrow">Priority Target</p> <h3>Rural and underserved access</h3> <p>Her scholarly and clinical work emphasizes equitable access, especially for patients who face practical barriers to specialty care and ongoing follow-up.</p>    </article><article class="starwars-panel"> <p class="starwars-panel__eyebrow">Priority Target</p> <h3>High-acuity clinical judgment</h3> <p>Years in pediatric and adult critical care environments shape her calm decision-making, interdisciplinary collaboration, and accountability under pressure.</p>    </article> </div> </section><section class="starwars-sector"> <div class="starwars-sector__heading"> <p class="starwars-sector__eyebrow">Operational History</p> <h2>Systems already navigated</h2>  </div> <div class="starwars-sector__grid"> <article class="starwars-panel"> <p class="starwars-panel__eyebrow">Career Arc</p> <h3>Current pediatric nephrology practice</h3> <p>Julie currently serves in pediatric dialysis at University of Michigan C.S. Mott Children&#39;s Hospital, caring for acute and outpatient dialysis patients in one of only three pediatric dialysis units in Michigan.</p>    </article><article class="starwars-panel"> <p class="starwars-panel__eyebrow">Career Arc</p> <h3>Critical care depth</h3> <p>Her background includes pediatric intensive care, cardiac intensive care, neonatal critical care float coverage, adult step-down intensive care, and high-acuity peri-procedural recovery.</p>    </article><article class="starwars-panel"> <p class="starwars-panel__eyebrow">Career Arc</p> <h3>Travel and adaptive practice</h3> <p>Travel nursing roles across Michigan and Minnesota strengthened her adaptability, rapid onboarding, and comfort delivering safe care across unfamiliar systems.</p>    </article><article class="starwars-panel"> <p class="starwars-panel__eyebrow">Career Arc</p> <h3>Primary care transition</h3> <p>Advanced practice rotations show an intentional move toward family medicine, preventive care, and outpatient care delivery in both community and FQHC settings.</p>    </article> </div> </section><section class="starwars-sector"> <div class="starwars-sector__heading"> <p class="starwars-sector__eyebrow">Research Transmission</p> <h2>The next phase of the journey</h2>  </div> <div class="starwars-sector__grid"> <article class="starwars-panel"> <p class="starwars-panel__eyebrow">Scholarly Transmission</p> <h3>DNP Quality Improvement Project</h3> <p>This project addresses a persistent diabetic-retinopathy screening gap by bringing retinal imaging into routine primary-care visits for patients who may not have ready access to specialty eye care.</p> <dl class="starwars-panel__meta"> <div> <dt>Timeline</dt> <dd>January 2026 to present</dd> </div><div> <dt>Completion</dt> <dd>Winter semester 2027</dd> </div> </dl>  <a class="starwars-panel__link" href="/julie-website/leadership-scholarship"> Review leadership and scholarship </a> </article><article class="starwars-panel"> <p class="starwars-panel__eyebrow">Clinical Sectors</p> <h3>Care environments already explored</h3>   <ul class="starwars-panel__list"> <li>Primary care</li><li>Family medicine</li><li>Federally qualified health centers</li><li>Pediatric primary care</li><li>Allergy and asthma specialty care</li><li>Sports and functional medicine</li><li>Pediatric dialysis</li><li>Pediatric intensive care</li><li>Cardiac intensive care</li><li>Adult step-down and interventional radiology</li> </ul>  </article> </div> </section>   </main> </div> </div> </section> <section class="immersive-shell immersive-shell--jurassic" data-immersive-shell="jurassic" hidden aria-hidden="true"> <div class="jurassic-shell"> <div class="jurassic-shell__scene" aria-hidden="true"> <span class="jurassic-shell__mist"></span> <span class="jurassic-shell__canopy jurassic-shell__canopy--a"></span> <span class="jurassic-shell__canopy jurassic-shell__canopy--b"></span> <span class="jurassic-shell__mountain jurassic-shell__mountain--a"></span> <span class="jurassic-shell__mountain jurassic-shell__mountain--b"></span> <span class="jurassic-shell__trex"></span> <span class="jurassic-shell__longneck"></span> <span class="jurassic-shell__jeep"></span> </div> <div class="jurassic-shell__viewport"> <header class="jurassic-shell__masthead"> <div class="jurassic-shell__brand"> <p class="jurassic-shell__zone">Visitor Center</p> <h2>Julie Stevens</h2> </div> <nav class="jurassic-nav" aria-label="Jurassic navigation"> <a href="/julie-website/"> Home </a><a href="/julie-website/clinical-experience"> Clinical Experience </a><a href="/julie-website/leadership-scholarship"> Leadership &amp; Scholarship </a><a href="/julie-website/cv-contact"> CV &amp; Contact </a> </nav> </header> <main class="jurassic-shell__content"> <section class="jurassic-arrival"> <div class="jurassic-arrival__copy"> <p class="jurassic-arrival__eyebrow">Arrival Briefing</p> <h1>Julie Stevens enters the clinical preserve</h1> <p class="jurassic-arrival__subtitle">Doctor of Nursing Practice - Family Nurse Practitioner Student // University of Michigan-Flint</p> <p class="jurassic-arrival__lede">Years of high-acuity nursing practice now move into a new care habitat, pairing sharp clinical instincts with a prevention-focused family practice future.</p> <div class="jurassic-arrival__actions"> <a class="jurassic-action" href="/julie-website/cv-contact"> Open CV &amp; Contact </a> <a class="jurassic-action jurassic-action--secondary" href="/julie-website/clinical-experience"> Track Clinical Experience </a> </div> <ul class="jurassic-tags"> <li>University of Michigan-Flint DNP-FNP student</li><li>Michigan-based clinical practice</li><li>Critical care to primary care trajectory</li> </ul> </div> <aside class="jurassic-arrival__aside"> <div class="jurassic-observation"> <div class="jurassic-observation__portrait"> <img src="https://res.cloudinary.com/stevens1434/image/upload/v1774275510/Other/julie.png" alt="Portrait of Julie Stevens with arms crossed"> </div> <div class="jurassic-observation__brief"> <p class="jurassic-panel__eyebrow">Ranger Note</p> <h2>A candidate built for both pressure and prevention</h2> <p>Julie combines pediatric nephrology, PICU, cardiac intensive care, travel nursing, and community-based advanced practice training in a profile ready for employers who value adaptability and polish.</p> <a class="jurassic-panel__link" href="https://www.linkedin.com/in/julie-stevens-bsn-rn-cpn-3a48824a" target="_blank" rel="noreferrer"> View LinkedIn profile </a> </div> </div> </aside> </section> <section class="jurassic-metrics" aria-label="Jurassic route metrics"> <article class="jurassic-metric"> <p class="jurassic-metric__value">16+</p> <h3>Years of bedside nursing</h3> <p>Adult, pediatric, critical care, radiology, and nephrology practice.</p> </article><article class="jurassic-metric"> <p class="jurassic-metric__value">2027</p> <h3>DNP-FNP graduation target</h3> <p>Doctor of Nursing Practice, University of Michigan-Flint.</p> </article><article class="jurassic-metric"> <p class="jurassic-metric__value">8</p> <h3>Advanced practice rotations listed</h3> <p>Primary care, pediatrics, FQHC, sports medicine, and allergy/asthma.</p> </article><article class="jurassic-metric"> <p class="jurassic-metric__value">Across the lifespan</p> <h3>Patient-care perspective</h3> <p>Family-centered care from infancy through adulthood.</p> </article> </section> <section class="jurassic-sector"> <div class="jurassic-sector__heading"> <p class="jurassic-sector__eyebrow">Protected Habitats</p> <h2>Practice environments shaping the preserve</h2>  </div> <div class="jurassic-sector__grid"> <article class="jurassic-panel"> <p class="jurassic-panel__eyebrow">Trail Marker</p> <h3>Family-centered primary care</h3> <p>Julie is preparing for family nurse practitioner practice with a patient-centered approach grounded in prevention, education, and continuity across the lifespan.</p>    </article><article class="jurassic-panel"> <p class="jurassic-panel__eyebrow">Trail Marker</p> <h3>Rural and underserved access</h3> <p>Her scholarly and clinical work emphasizes equitable access, especially for patients who face practical barriers to specialty care and ongoing follow-up.</p>    </article><article class="jurassic-panel"> <p class="jurassic-panel__eyebrow">Trail Marker</p> <h3>High-acuity clinical judgment</h3> <p>Years in pediatric and adult critical care environments shape her calm decision-making, interdisciplinary collaboration, and accountability under pressure.</p>    </article> </div> </section><section class="jurassic-sector"> <div class="jurassic-sector__heading"> <p class="jurassic-sector__eyebrow">Migration Path</p> <h2>Where the expedition has already traveled</h2>  </div> <div class="jurassic-sector__grid"> <article class="jurassic-panel"> <p class="jurassic-panel__eyebrow">Career Arc</p> <h3>Current pediatric nephrology practice</h3> <p>Julie currently serves in pediatric dialysis at University of Michigan C.S. Mott Children&#39;s Hospital, caring for acute and outpatient dialysis patients in one of only three pediatric dialysis units in Michigan.</p>    </article><article class="jurassic-panel"> <p class="jurassic-panel__eyebrow">Career Arc</p> <h3>Critical care depth</h3> <p>Her background includes pediatric intensive care, cardiac intensive care, neonatal critical care float coverage, adult step-down intensive care, and high-acuity peri-procedural recovery.</p>    </article><article class="jurassic-panel"> <p class="jurassic-panel__eyebrow">Career Arc</p> <h3>Travel and adaptive practice</h3> <p>Travel nursing roles across Michigan and Minnesota strengthened her adaptability, rapid onboarding, and comfort delivering safe care across unfamiliar systems.</p>    </article><article class="jurassic-panel"> <p class="jurassic-panel__eyebrow">Career Arc</p> <h3>Primary care transition</h3> <p>Advanced practice rotations show an intentional move toward family medicine, preventive care, and outpatient care delivery in both community and FQHC settings.</p>    </article> </div> </section><section class="jurassic-sector"> <div class="jurassic-sector__heading"> <p class="jurassic-sector__eyebrow">Research Outpost</p> <h2>Projects guiding the next discovery</h2>  </div> <div class="jurassic-sector__grid"> <article class="jurassic-panel"> <p class="jurassic-panel__eyebrow">Scholarly Transmission</p> <h3>DNP Quality Improvement Project</h3> <p>This project addresses a persistent diabetic-retinopathy screening gap by bringing retinal imaging into routine primary-care visits for patients who may not have ready access to specialty eye care.</p> <dl class="jurassic-panel__meta"> <div> <dt>Timeline</dt> <dd>January 2026 to present</dd> </div><div> <dt>Completion</dt> <dd>Winter semester 2027</dd> </div> </dl>  <a class="jurassic-panel__link" href="/julie-website/leadership-scholarship"> Review leadership and scholarship </a> </article><article class="jurassic-panel"> <p class="jurassic-panel__eyebrow">Clinical Sectors</p> <h3>Care environments already explored</h3>   <ul class="jurassic-panel__list"> <li>Primary care</li><li>Family medicine</li><li>Federally qualified health centers</li><li>Pediatric primary care</li><li>Allergy and asthma specialty care</li><li>Sports and functional medicine</li><li>Pediatric dialysis</li><li>Pediatric intensive care</li><li>Cardiac intensive care</li><li>Adult step-down and interventional radiology</li> </ul>  </article> </div> </section>   </main> </div> </div> </section> <section class="immersive-shell immersive-shell--er" data-immersive-shell="er" hidden aria-hidden="true"> <div class="er-shell" data-er-page="contact"> <header class="er-shell__appbar"> <div class="er-shell__product"> <strong>CareChart EMR</strong> <span>Ambulatory candidate chart</span> </div> <div class="er-shell__session"> <span>Logged in: Hiring Team Review</span> <span>Workspace: Candidate Summary Chart</span> </div> </header> <section class="er-shell__banner"> <div class="er-shell__identity"> <p class="er-shell__banner-label">Patient Header</p> <h1>Julie Stevens</h1> <div class="er-chip-row"> <span>DNP-FNP Candidate</span> <span>BSN, RN, CPN</span> <span>MRN 2027-FNP-016</span> <span>Michigan</span> </div> </div> <dl class="er-shell__facts"> <div> <dt>Primary Program</dt> <dd>University of Michigan-Flint</dd> </div> <div> <dt>Current Role</dt> <dd>Doctor of Nursing Practice - Family Nurse Practitioner Student</dd> </div> <div> <dt>Clinical Status</dt> <dd>Employer review ready</dd> </div> <div> <dt>Practice Lens</dt> <dd>Family-centered, prevention-focused, equity-driven</dd> </div> </dl> </section> <nav class="er-shell__tabs" aria-label="ER navigation"> <a href="/julie-website/"> Home </a><a href="/julie-website/clinical-experience"> Clinical Experience </a><a href="/julie-website/leadership-scholarship"> Leadership &amp; Scholarship </a><a href="/julie-website/cv-contact"> CV &amp; Contact </a> </nav> <div class="er-shell__workspace"> <aside class="er-shell__rail"> <section class="er-module"> <div class="er-module__header"> <strong>Demographics</strong> <span>Verified</span> </div> <dl class="er-data-list"> <div> <dt>Location</dt> <dd>Michigan</dd> </div> <div> <dt>Graduation</dt> <dd>2027 target</dd> </div> <div> <dt>Specialty Depth</dt> <dd>Pediatric nephrology, ICU, dialysis, outpatient primary care</dd> </div> <div> <dt>Clinical Systems</dt> <dd>Epic, Cerner, Microsoft Office, Teams</dd> </div> </dl> </section> <section class="er-module"> <div class="er-module__header"> <strong>Alerts</strong> <span>Active</span> </div> <ul class="er-bullet-list"> <li>16+ years bedside nursing experience</li> <li>Pediatric and adult high-acuity background</li> <li>References available upon request</li> </ul> </section> <section class="er-module"> <div class="er-module__header"> <strong>Credentials</strong> <span>Current</span> </div> <ul class="er-chip-list"> <li>Certified Pediatric Nurse</li><li>Basic Life Support for Healthcare Providers</li><li>Pediatric Advanced Life Support</li><li>Advanced Cardiovascular Life Support</li><li>Registered Nurse, State of Michigan</li> </ul> </section> <section class="er-module"> <div class="er-module__header"> <strong>Quick Actions</strong> <span>External</span> </div> <div class="er-action-list"> <a href="mailto:juritter@med.umich.edu">Email Julie</a> <a href="https://www.linkedin.com/in/julie-stevens-bsn-rn-cpn-3a48824a" target="_blank" rel="noreferrer">Open LinkedIn</a>  </div> </section> </aside> <main class="er-shell__main">    <div class="er-grid er-grid--contact"> <section class="er-module"> <div class="er-module__header"> <strong>Document Registry</strong> <span>Chart media</span> </div> <table class="er-table er-table--compact"> <thead> <tr><th>Document</th><th>Status</th></tr> </thead> <tbody> <tr><td>Curriculum vitae</td><td>Pending final PDF</td></tr> <tr><td>References</td><td>Available upon request</td></tr> <tr><td>LinkedIn profile</td><td>Active</td></tr> <tr><td>Interview scheduling</td><td>Pending link</td></tr> </tbody> </table> </section> <section class="er-module"> <div class="er-module__header"> <strong>Referral Routing</strong> <span>External pathways</span> </div> <div class="er-action-list"> <a href="mailto:juritter@med.umich.edu">Email Julie</a> <a href="https://www.linkedin.com/in/julie-stevens-bsn-rn-cpn-3a48824a" target="_blank" rel="noreferrer">Open LinkedIn</a>  </div> </section> <section class="er-module er-module--wide"> <div class="er-module__header"> <strong>Secure Messaging</strong> <span>Compose</span> </div> <div class="section-card muted-card"><p class="card-label">Employer Inquiry Form</p><h3>Form endpoint pending activation</h3><p>
+A direct employer inquiry form can be activated as soon as Julie finalizes her preferred submission workflow. Until then,
+        please use the email or LinkedIn options on this page.
+</p></div> </section> </div> </main> </div> </div> </section> </div> <script>
+  (() => {
+    const themeStore = window.__JULIE_THEME__;
+    const hub = document.querySelector("[data-immersive-hub]");
+    const siteCore = document.querySelector("[data-site-core]");
+    const skipLink = document.querySelector(".skip-link");
+
+    if (!themeStore || !hub || !siteCore) return;
+
+    const shells = Array.from(hub.querySelectorAll("[data-immersive-shell]"));
+    const immersiveThemes = new Set(["retro", "starwars", "jurassic", "er"]);
+
+    const sync = (theme) => {
+      const activeTheme = theme?.creativeTheme;
+      const immersiveActive = immersiveThemes.has(activeTheme);
+
+      hub.hidden = !immersiveActive;
+      hub.setAttribute("aria-hidden", immersiveActive ? "false" : "true");
+      hub.dataset.activeTheme = immersiveActive ? activeTheme : "none";
+
+      shells.forEach((shell) => {
+        const shellTheme = shell.getAttribute("data-immersive-shell");
+        const isActive = immersiveActive && shellTheme === activeTheme;
+        shell.hidden = !isActive;
+        shell.setAttribute("aria-hidden", isActive ? "false" : "true");
+        shell.dataset.active = isActive ? "true" : "false";
+      });
+
+      siteCore.dataset.immersiveHidden = immersiveActive ? "true" : "false";
+      siteCore.setAttribute("aria-hidden", immersiveActive ? "true" : "false");
+
+      if (immersiveActive) {
+        siteCore.setAttribute("inert", "");
+      } else {
+        siteCore.removeAttribute("inert");
+      }
+
+      if (skipLink) {
+        skipLink.hidden = immersiveActive;
+      }
+
+      document.body.dataset.immersiveActive = immersiveActive ? "true" : "false";
+      document.body.dataset.immersiveTheme = immersiveActive ? activeTheme : "none";
+    };
+
+    sync(themeStore.read());
+
+    window.addEventListener("julie-theme-change", (event) => {
+      if (!event.detail) return;
+      sync(event.detail);
+    });
+  })();
+</script> <div class="cinema-intro" data-cinema-intro hidden aria-hidden="true" data-state="closed" data-theme="standard"> <div class="cinema-intro__scrim" data-intro-close></div> <button class="cinema-intro__skip" type="button" data-intro-skip>Skip intro</button> <section class="cinema-intro__experience cinema-intro__experience--starwars" data-intro-experience="starwars" hidden aria-hidden="true"> <div class="starwars-intro"> <div class="starwars-intro__space" aria-hidden="true"></div> <div class="starwars-intro__prelude">
+A long time ago in a healthcare system not so far away....
+</div> <div class="starwars-intro__logo" aria-hidden="true"> <span>JULIE</span> <span>STEVENS</span> </div> <div class="starwars-intro__crawl-stage"> <div class="starwars-intro__crawl"> <p class="starwars-intro__episode">Episode FNP</p> <h2 class="starwars-intro__title">THE PORTFOLIO AWAKENS</h2> <p>
+It is a period of clinical transition. After years of high-acuity bedside service, Julie Stevens prepares to move
+            from critical care and specialty nursing into family nurse practitioner practice.
+</p> <p>
+Carrying experience forged in pediatric nephrology, cardiac intensive care, PICU, travel nursing, and community-based
+            advanced practice training, she now advances toward a broader mission of prevention, continuity, and equitable care.
+</p> <p>
+Employers who enter this portfolio will discover leadership, scholarship, and clinical depth assembled into one
+            hiring-ready dossier, prepared for the next frontier in family-centered practice.
+</p> </div> </div> <div class="cinema-intro__disclaimer cinema-intro__disclaimer--starwars"> <p class="cinema-intro__disclaimer-label">Parody-Inspired Homage</p> <p>This experience is a parody-inspired homage to the original. It is not affiliated with, endorsed by, or sponsored by the original creators or rights holders. It is presented for commentary and entertainment purposes only.</p> </div> </div> </section> <section class="cinema-intro__experience cinema-intro__experience--jurassic" data-intro-experience="jurassic" hidden aria-hidden="true"> <div class="jurassic-intro"> <svg class="jurassic-intro__art" viewBox="0 0 1600 900" aria-hidden="true"> <defs> <linearGradient id="jurassicSky" x1="800" y1="0" x2="800" y2="900" gradientUnits="userSpaceOnUse"> <stop stop-color="#05070b"></stop> <stop offset="0.44" stop-color="#102018"></stop> <stop offset="1" stop-color="#1d2413"></stop> </linearGradient> <radialGradient id="jurassicMoonGlow" cx="0.5" cy="0.18" r="0.48"> <stop stop-color="#fff5c0" stop-opacity="0.28"></stop> <stop offset="0.55" stop-color="#fff5c0" stop-opacity="0.06"></stop> <stop offset="1" stop-color="#fff5c0" stop-opacity="0"></stop> <linearGradient id="jurassicRoad" x1="800" y1="396" x2="800" y2="900" gradientUnits="userSpaceOnUse"> <stop stop-color="#6d6258"></stop> <stop offset="0.3" stop-color="#433930"></stop> <stop offset="1" stop-color="#130d0b"></stop> </linearGradient> <linearGradient id="jurassicStone" x1="0" y1="0" x2="1" y2="1"> <stop stop-color="#7f674d"></stop> <stop offset="0.4" stop-color="#58412c"></stop> <stop offset="1" stop-color="#26170d"></stop> </linearGradient> <linearGradient id="jurassicWood" x1="0" y1="0" x2="1" y2="1"> <stop stop-color="#7b4822"></stop> <stop offset="0.45" stop-color="#4f2d16"></stop> <stop offset="1" stop-color="#24130a"></stop> </linearGradient> <linearGradient id="jurassicMetal" x1="0" y1="0" x2="1" y2="1"> <stop stop-color="#e0b56d"></stop> <stop offset="0.54" stop-color="#a36028"></stop> <stop offset="1" stop-color="#5c3011"></stop> </linearGradient> <linearGradient id="jurassicJeep" x1="0" y1="0" x2="1" y2="1"> <stop stop-color="#cb4421"></stop> <stop offset="0.55" stop-color="#b52814"></stop> <stop offset="1" stop-color="#4c130c"></stop> </linearGradient> <linearGradient id="jurassicGlass" x1="0" y1="0" x2="1" y2="1"> <stop stop-color="#d7f4ff"></stop> <stop offset="1" stop-color="#7ab0c8"></stop> </linearGradient> <linearGradient id="jurassicFlame" x1="0" y1="0" x2="0" y2="1"> <stop stop-color="#fff6bd"></stop> <stop offset="0.38" stop-color="#ffb85a"></stop> <stop offset="1" stop-color="#b33d12"></stop> </linearGradient> <linearGradient id="jurassicLeaf" x1="0" y1="0" x2="1" y2="1"> <stop stop-color="#2d5425"></stop> <stop offset="0.52" stop-color="#173017"></stop> <stop offset="1" stop-color="#0d170d"></stop> </linearGradient> <filter id="jurassicTexture" x="-10%" y="-10%" width="120%" height="120%"> <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="4" result="noise"></feTurbulence> <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.36  0 0 0 0 0.25  0 0 0 0 0.18  0 0 0 0.24 0" result="grain"></feColorMatrix> <feBlend in="SourceGraphic" in2="grain" mode="multiply"></feBlend> </filter> <filter id="jurassicGlow" x="-40%" y="-40%" width="180%" height="180%"> <feGaussianBlur stdDeviation="18"></feGaussianBlur> </filter> <filter id="jurassicHeadlights" x="-50%" y="-50%" width="200%" height="200%"> <feGaussianBlur stdDeviation="12"></feGaussianBlur> </filter> <filter id="jurassicShadow" x="-30%" y="-30%" width="160%" height="160%"> <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#000000" flood-opacity="0.45"></feDropShadow> </filter> </radialGradient></defs> <rect width="1600" height="900" fill="url(#jurassicSky)"></rect> <rect width="1600" height="900" fill="url(#jurassicMoonGlow)" opacity="0.62"></rect> <g opacity="0.95"> <path d="M0 262C148 304 260 316 364 304C488 290 564 248 688 236C842 220 958 280 1098 292C1240 304 1398 278 1600 220V0H0V262Z" fill="#09100c"></path> <path d="M0 544C142 490 264 470 378 490C482 508 578 454 692 420C856 370 1032 376 1218 452C1338 500 1460 526 1600 506V900H0V544Z" fill="#1a2416"></path> <path d="M0 616C136 570 244 552 334 568C424 584 514 634 628 638C726 642 808 592 904 574C1028 550 1180 598 1328 636C1442 666 1534 662 1600 646V900H0V616Z" fill="#11170e"></path> </g> <g class="jurassic-intro__fog-bands" opacity="0.5"> <ellipse class="jurassic-intro__fog-band" cx="390" cy="520" rx="220" ry="80" fill="#d5ccb7"></ellipse> <ellipse class="jurassic-intro__fog-band jurassic-intro__fog-band--mid" cx="800" cy="540" rx="290" ry="96" fill="#d5ccb7"></ellipse> <ellipse class="jurassic-intro__fog-band jurassic-intro__fog-band--far" cx="1220" cy="512" rx="220" ry="80" fill="#d5ccb7"></ellipse> </g> <g class="jurassic-intro__canopy" opacity="0.9"> <path d="M0 112C142 174 252 202 380 188C496 176 612 110 776 102C970 92 1106 172 1246 184C1368 194 1472 174 1600 122V0H0V112Z" fill="#050806"></path> <path d="M0 0H1600V92C1504 124 1422 136 1334 130C1230 122 1144 88 1036 80C910 72 816 92 698 116C540 148 394 160 266 134C178 118 94 90 0 66V0Z" fill="#020303" opacity="0.95"></path> </g> <path d="M600 900L718 420H882L1000 900H600Z" fill="url(#jurassicRoad)" filter="url(#jurassicTexture)"></path> <path d="M795 430H805L822 900H778L795 430Z" fill="#d8bc74" opacity="0.45"></path> <path d="M740 900C748 810 768 732 800 666C832 732 852 810 860 900H740Z" fill="rgba(255,255,255,0.04)"></path> <g class="jurassic-intro__gate-group"> <g class="jurassic-intro__torchlight jurassic-intro__torchlight--left"> <ellipse cx="410" cy="332" rx="96" ry="156" fill="#f7b45e" opacity="0.24" filter="url(#jurassicGlow)"></ellipse> </g> <g class="jurassic-intro__torchlight jurassic-intro__torchlight--right"> <ellipse cx="1190" cy="332" rx="96" ry="156" fill="#f7b45e" opacity="0.24" filter="url(#jurassicGlow)"></ellipse> </g> <g filter="url(#jurassicTexture)"> <path d="M278 160H452L464 658H266L278 160Z" fill="url(#jurassicStone)"></path> <path d="M1148 160H1322L1334 658H1136L1148 160Z" fill="url(#jurassicStone)"></path> <path d="M330 128H1270V252H330Z" fill="url(#jurassicStone)"></path> <rect x="308" y="200" width="28" height="404" fill="#2f1c10" opacity="0.7"></rect> <rect x="1264" y="200" width="28" height="404" fill="#2f1c10" opacity="0.7"></rect> </g> <g> <rect x="342" y="146" width="916" height="18" fill="url(#jurassicMetal)"></rect> <rect x="316" y="154" width="30" height="464" rx="12" fill="#2a180d"></rect> <rect x="1254" y="154" width="30" height="464" rx="12" fill="#2a180d"></rect> </g> <g class="jurassic-intro__gate jurassic-intro__gate--left" filter="url(#jurassicTexture)"> <rect x="438" y="248" width="314" height="360" rx="18" fill="url(#jurassicWood)" stroke="#c28434" stroke-width="4"></rect> <rect x="454" y="264" width="282" height="38" fill="#59351b"></rect> <rect x="454" y="316" width="282" height="38" fill="#59351b"></rect> <rect x="454" y="368" width="282" height="38" fill="#59351b"></rect> <rect x="454" y="420" width="282" height="38" fill="#59351b"></rect> <rect x="454" y="472" width="282" height="38" fill="#59351b"></rect> <rect x="454" y="524" width="282" height="68" fill="#59351b"></rect> <path d="M452 574L730 280" stroke="#d39b4a" stroke-width="10"></path> <path d="M454 278L736 574" stroke="#352012" stroke-width="5" opacity="0.42"></path> </g> <g class="jurassic-intro__gate jurassic-intro__gate--right" filter="url(#jurassicTexture)"> <rect x="848" y="248" width="314" height="360" rx="18" fill="url(#jurassicWood)" stroke="#c28434" stroke-width="4"></rect> <rect x="864" y="264" width="282" height="38" fill="#59351b"></rect> <rect x="864" y="316" width="282" height="38" fill="#59351b"></rect> <rect x="864" y="368" width="282" height="38" fill="#59351b"></rect> <rect x="864" y="420" width="282" height="38" fill="#59351b"></rect> <rect x="864" y="472" width="282" height="38" fill="#59351b"></rect> <rect x="864" y="524" width="282" height="68" fill="#59351b"></rect> <path d="M1148 574L870 280" stroke="#d39b4a" stroke-width="10"></path> <path d="M1146 278L864 574" stroke="#352012" stroke-width="5" opacity="0.42"></path> </g> <g class="jurassic-intro__sign"> <rect x="566" y="170" width="468" height="88" rx="16" fill="#120a06"></rect> <rect x="580" y="184" width="440" height="58" rx="12" fill="#31170a" stroke="#e0b56d" stroke-width="4"></rect> <text x="800" y="224" fill="#ffe1a7" font-size="34" font-family="Georgia, serif" text-anchor="middle" letter-spacing="6">
+PORTFOLIO PARK
+</text> </g> <g class="jurassic-intro__torch"> <rect x="388" y="236" width="18" height="100" rx="8" fill="#24140b"></rect> <path d="M372 254H424L414 286H382L372 254Z" fill="#5f391a"></path> <path class="jurassic-intro__flame" d="M398 206C420 230 420 256 398 276C376 258 376 228 398 206Z" fill="url(#jurassicFlame)"></path> <path class="jurassic-intro__flame jurassic-intro__flame--core" d="M398 220C410 238 410 252 398 266C386 252 386 236 398 220Z" fill="#fff5b4"></path> </g> <g class="jurassic-intro__torch"> <rect x="1194" y="236" width="18" height="100" rx="8" fill="#24140b"></rect> <path d="M1178 254H1230L1220 286H1188L1178 254Z" fill="#5f391a"></path> <path class="jurassic-intro__flame" d="M1204 206C1226 230 1226 256 1204 276C1182 258 1182 228 1204 206Z" fill="url(#jurassicFlame)"></path> <path class="jurassic-intro__flame jurassic-intro__flame--core" d="M1204 220C1216 238 1216 252 1204 266C1192 252 1192 236 1204 220Z" fill="#fff5b4"></path> </g> </g> <g class="jurassic-intro__beam-group"> <path d="M704 654L606 900H744L812 674Z" fill="#fbe7a8" opacity="0.16" filter="url(#jurassicHeadlights)"></path> <path d="M894 654L786 900H972L952 674Z" fill="#fbe7a8" opacity="0.16" filter="url(#jurassicHeadlights)"></path> </g> <g class="jurassic-intro__jeep" filter="url(#jurassicShadow)"> <ellipse cx="800" cy="748" rx="210" ry="44" fill="#080707" opacity="0.5"></ellipse> <path d="M618 658L682 574H924L982 646L986 706L624 716L618 658Z" fill="url(#jurassicJeep)"></path> <path d="M690 552H914L962 624H640L690 552Z" fill="#cf4f28"></path> <path d="M722 564H902L944 620H678L722 564Z" fill="#f0d6a3" opacity="0.18"></path> <rect x="704" y="582" width="78" height="40" rx="8" fill="url(#jurassicGlass)" opacity="0.92"></rect> <rect x="792" y="582" width="78" height="40" rx="8" fill="url(#jurassicGlass)" opacity="0.92"></rect> <rect x="882" y="582" width="42" height="40" rx="8" fill="url(#jurassicGlass)" opacity="0.92"></rect> <path d="M642 634H964" stroke="#f4cf59" stroke-width="14" stroke-dasharray="28 18" opacity="0.9"></path> <path d="M646 642H964" stroke="#14100e" stroke-width="5" opacity="0.45"></path> <rect x="650" y="628" width="36" height="20" rx="8" fill="#ffe29a"></rect> <rect x="916" y="628" width="36" height="20" rx="8" fill="#ffe29a"></rect> <ellipse cx="668" cy="638" rx="106" ry="52" fill="#f9e7b4" opacity="0.2" filter="url(#jurassicHeadlights)"></ellipse> <ellipse cx="932" cy="638" rx="106" ry="52" fill="#f9e7b4" opacity="0.2" filter="url(#jurassicHeadlights)"></ellipse> <path d="M686 546H916" stroke="#22140d" stroke-width="8"></path> <path d="M734 540H866" stroke="#301b11" stroke-width="12"></path> <path d="M646 662H970" stroke="#291a12" stroke-width="8"></path> <path d="M736 666V704" stroke="#22140d" stroke-width="5"></path> <path d="M862 666V704" stroke="#22140d" stroke-width="5"></path> <path d="M634 706H972" stroke="#150e0c" stroke-width="8"></path> <circle cx="706" cy="726" r="50" fill="#130f0d"></circle> <circle cx="898" cy="726" r="50" fill="#130f0d"></circle> <circle cx="706" cy="726" r="24" fill="#6f655c"></circle> <circle cx="898" cy="726" r="24" fill="#6f655c"></circle> </g> <g class="jurassic-intro__foreground" filter="url(#jurassicTexture)"> <path d="M-12 900C64 840 92 760 96 654C132 734 172 786 238 836C156 812 122 842 102 900H-12Z" fill="url(#jurassicLeaf)"></path> <path d="M34 900C90 816 126 704 132 596C176 704 208 780 278 850C220 836 192 846 176 900H34Z" fill="url(#jurassicLeaf)" opacity="0.92"></path> <path d="M1368 900C1416 810 1454 700 1468 590C1510 696 1542 772 1606 838C1554 834 1526 846 1508 900H1368Z" fill="url(#jurassicLeaf)"></path> <path d="M1254 900C1316 838 1354 762 1374 682C1406 758 1440 818 1492 856C1436 842 1404 852 1382 900H1254Z" fill="url(#jurassicLeaf)" opacity="0.92"></path> </g> </svg> <div class="jurassic-intro__atmosphere" aria-hidden="true"></div> <div class="cinema-intro__disclaimer cinema-intro__disclaimer--jurassic"> <p class="cinema-intro__disclaimer-label">Parody-Inspired Homage</p> <p>This experience is a parody-inspired homage to the original. It is not affiliated with, endorsed by, or sponsored by the original creators or rights holders. It is presented for commentary and entertainment purposes only.</p> </div> </div> </section> <section class="cinema-intro__experience cinema-intro__experience--retro" data-intro-experience="retro" hidden aria-hidden="true"> <div class="retro-intro"> <div class="retro-intro__screen"> <div class="retro-intro__brand"> <div class="retro-intro__brand-mark" aria-hidden="true"> <span></span> </div> <div class="retro-intro__brand-copy"> <small>AMERICA</small> <strong>Online</strong> </div> </div> <div class="retro-intro__panels"> <div class="retro-intro__panel"> <svg viewBox="0 0 120 120" aria-hidden="true"> <circle cx="60" cy="25" r="16" fill="#ffd157" stroke="#1e2340" stroke-width="5"></circle> <path d="M43 52C52 40 72 40 78 55L94 86" fill="none" stroke="#ffd157" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M46 62L26 84" fill="none" stroke="#ffd157" stroke-width="15" stroke-linecap="round"></path> <path d="M58 85L82 98" fill="none" stroke="#ffd157" stroke-width="15" stroke-linecap="round"></path> </svg> </div> <div class="retro-intro__panel retro-intro__panel--motion"> <svg viewBox="0 0 160 120" aria-hidden="true"> <g transform="translate(18 0)"> <circle cx="60" cy="25" r="16" fill="#ffd157" stroke="#1e2340" stroke-width="5"></circle> <path d="M43 52C52 40 72 40 78 55L94 86" fill="none" stroke="#ffd157" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M46 62L26 84" fill="none" stroke="#ffd157" stroke-width="15" stroke-linecap="round"></path> <path d="M58 85L82 98" fill="none" stroke="#ffd157" stroke-width="15" stroke-linecap="round"></path> </g> <path d="M12 34H48" stroke="#1e2340" stroke-width="6" stroke-linecap="round"></path> <path d="M6 58H42" stroke="#1e2340" stroke-width="6" stroke-linecap="round"></path> <path d="M14 82H50" stroke="#1e2340" stroke-width="6" stroke-linecap="round"></path> </svg> </div> <div class="retro-intro__panel retro-intro__panel--connected"> <div class="retro-intro__connected-mark" aria-hidden="true"> <div class="retro-intro__connected-triangle"></div> <div class="retro-intro__connected-orb"></div> <div class="retro-intro__connected-splash"></div> </div> </div> </div> <p class="retro-intro__status retro-intro__status--dialing">Dialing...</p> <p class="retro-intro__status retro-intro__status--connected">Connected!</p> <div class="retro-intro__divider" aria-hidden="true"></div> </div> <div class="cinema-intro__disclaimer cinema-intro__disclaimer--retro"> <p class="cinema-intro__disclaimer-label">Parody-Inspired Homage</p> <p>This experience is a parody-inspired homage to the original. It is not affiliated with, endorsed by, or sponsored by the original creators or rights holders. It is presented for commentary and entertainment purposes only.</p> </div> </div> </section> </div> <script>
+  (() => {
+    const themeStore = window.__JULIE_THEME__;
+    const intro = document.querySelector("[data-cinema-intro]");
+
+    if (!themeStore || !intro) return;
+
+    const durations = {
+      retro: 7800,
+      starwars: 36000,
+      jurassic: 15000
+    };
+    const reducedDurations = {
+      retro: 3400,
+      starwars: 7600,
+      jurassic: 4600
+    };
+    const cinematicThemes = new Set(["retro", "starwars", "jurassic"]);
+    const experiences = Array.from(intro.querySelectorAll("[data-intro-experience]"));
+    const closeButtons = intro.querySelectorAll("[data-intro-skip], [data-intro-close]");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let closeTimer = null;
+
+    const setExperience = (theme) => {
+      experiences.forEach((experience) => {
+        const experienceTheme = experience.getAttribute("data-intro-experience");
+        const isActive = experienceTheme === theme;
+        experience.hidden = !isActive;
+        experience.setAttribute("aria-hidden", isActive ? "false" : "true");
+      });
+    };
+
+    const clearCloseTimer = () => {
+      if (!closeTimer) return;
+      window.clearTimeout(closeTimer);
+      closeTimer = null;
+    };
+
+    const closeIntro = (immediate = false) => {
+      clearCloseTimer();
+
+      if (immediate) {
+        intro.hidden = true;
+        intro.dataset.state = "closed";
+        intro.setAttribute("aria-hidden", "true");
+        return;
+      }
+
+      intro.dataset.state = "closing";
+      window.setTimeout(() => {
+        intro.hidden = true;
+        intro.dataset.state = "closed";
+        intro.setAttribute("aria-hidden", "true");
+      }, 260);
+    };
+
+    const openIntro = (theme) => {
+      clearCloseTimer();
+      setExperience(theme);
+      intro.dataset.theme = theme;
+      intro.dataset.motion = reducedMotion.matches ? "reduced" : "full";
+      intro.hidden = false;
+      intro.setAttribute("aria-hidden", "false");
+      intro.dataset.state = "opening";
+
+      requestAnimationFrame(() => {
+        intro.dataset.state = "open";
+      });
+
+      closeTimer = window.setTimeout(
+        () => closeIntro(false),
+        reducedMotion.matches ? reducedDurations[theme] || 2400 : durations[theme] || 10000
+      );
+    };
+
+    const shouldReplay = (detail) =>
+      Boolean(
+        detail &&
+          detail.__meta?.reason === "theme-toggle" &&
+          cinematicThemes.has(detail.creativeTheme) &&
+          detail.__previous?.creativeTheme !== detail.creativeTheme
+      );
+
+    closeButtons.forEach((button) => {
+      button.addEventListener("click", () => closeIntro(false));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && intro.dataset.state === "open") {
+        closeIntro(false);
+      }
+    });
+
+    window.addEventListener("julie-theme-change", (event) => {
+      const detail = event.detail;
+      if (!detail) return;
+
+      if (shouldReplay(detail)) {
+        openIntro(detail.creativeTheme);
+        return;
+      }
+
+      if (!cinematicThemes.has(detail.creativeTheme)) {
+        closeIntro(true);
+      }
+    });
+  })();
+</script> <div class="theme-dock" data-theme-dock data-open="false"> <button class="theme-trigger" type="button" aria-expanded="false" aria-controls="appearance-panel" data-theme-trigger="default"> <span class="theme-trigger-label">Appearance</span> <span class="theme-trigger-value" data-theme-summary>Light</span> </button> <section class="theme-panel" id="appearance-panel" hidden data-theme-panel aria-label="Appearance controls"> <div class="theme-panel-header"> <div> <p class="theme-panel-label">Theme Controls</p> <h2>Adjust the site style</h2> </div> <button class="theme-close" type="button" aria-label="Close appearance controls" data-theme-close>
+Close
+</button> </div> <div class="theme-groups"> <section class="theme-group" aria-label="Color Mode" data-theme-group="colorMode" data-disabled-when-creative="true"> <p class="theme-group-label">Color Mode</p> <div class="theme-options" role="group" aria-label="Color Mode"> <button class="theme-option" type="button" data-theme-option data-theme-prop="colorMode" data-theme-value="light" aria-pressed="false"> Light </button><button class="theme-option" type="button" data-theme-option data-theme-prop="colorMode" data-theme-value="dark" aria-pressed="false"> Dark </button> </div> </section><section class="theme-group" aria-label="Creative Theme" data-theme-group="creativeTheme" data-disabled-when-creative="false"> <p class="theme-group-label">Creative Theme</p> <div class="theme-options" role="group" aria-label="Creative Theme"> <button class="theme-option" type="button" data-theme-option data-theme-prop="creativeTheme" data-theme-value="standard" aria-pressed="false"> Standard </button><button class="theme-option" type="button" data-theme-option data-theme-prop="creativeTheme" data-theme-value="retro" aria-pressed="false"> Retro </button><button class="theme-option" type="button" data-theme-option data-theme-prop="creativeTheme" data-theme-value="starwars" aria-pressed="false"> Star Wars </button><button class="theme-option" type="button" data-theme-option data-theme-prop="creativeTheme" data-theme-value="jurassic" aria-pressed="false"> Jurassic </button><button class="theme-option" type="button" data-theme-option data-theme-prop="creativeTheme" data-theme-value="er" aria-pressed="false"> ER </button> </div> </section> </div> <p class="theme-override-note" hidden data-theme-override-note>
+Retro, Star Wars, Jurassic, and ER use fixed immersive layouts. Switch Creative Theme back to Standard to re-enable Color Mode.
+</p> </section> </div> <script>
+  (() => {
+    const themeStore = window.__JULIE_THEME__;
+    const dock = document.querySelector("[data-theme-dock]");
+
+    if (!themeStore || !dock) return;
+
+    const triggerDefault = dock.querySelector("[data-theme-trigger='default']");
+    const triggers = [triggerDefault].filter(Boolean);
+    const panel = dock.querySelector("[data-theme-panel]");
+    const close = dock.querySelector("[data-theme-close]");
+    const summary = dock.querySelector("[data-theme-summary]");
+    const overrideNote = dock.querySelector("[data-theme-override-note]");
+    const options = Array.from(dock.querySelectorAll("[data-theme-option]"));
+    const groups = Array.from(dock.querySelectorAll("[data-theme-group]"));
+
+    const labels = {
+      colorMode: {
+        light: "Light",
+        dark: "Dark"
+      },
+      creativeTheme: {
+        standard: "Standard",
+        retro: "Retro",
+        starwars: "Star Wars",
+        jurassic: "Jurassic",
+        er: "ER"
+      }
+    };
+
+    const usesFixedLayout = (theme) => theme.creativeTheme && theme.creativeTheme !== "standard";
+
+    const formatSummary = (theme) =>
+      theme.creativeTheme === "standard" ? labels.colorMode[theme.colorMode] : labels.creativeTheme[theme.creativeTheme];
+
+    const sync = (theme) => {
+      const immersive = usesFixedLayout(theme);
+
+      if (summary) summary.textContent = formatSummary(theme);
+      if (triggerDefault) triggerDefault.hidden = theme.creativeTheme === "retro";
+
+      if (overrideNote) {
+        overrideNote.hidden = !immersive;
+      }
+
+      groups.forEach((group) => {
+        const disableForCreative = group.getAttribute("data-disabled-when-creative") === "true";
+        const isDisabled = Boolean(immersive && disableForCreative);
+        group.dataset.disabled = isDisabled ? "true" : "false";
+      });
+
+      options.forEach((option) => {
+        const prop = option.getAttribute("data-theme-prop");
+        const value = option.getAttribute("data-theme-value");
+        const isActive = Boolean(prop && value && theme[prop] === value);
+        const isDisabled = Boolean(immersive && prop === "colorMode");
+
+        option.setAttribute("aria-pressed", isActive ? "true" : "false");
+        option.setAttribute("aria-disabled", isDisabled ? "true" : "false");
+        option.dataset.active = isActive ? "true" : "false";
+        option.disabled = isDisabled;
+      });
+    };
+
+    const setOpen = (isOpen) => {
+      dock.dataset.open = isOpen ? "true" : "false";
+      triggers.forEach((trigger) => {
+        trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+      if (panel) panel.hidden = !isOpen;
+    };
+
+    sync(themeStore.read());
+    setOpen(false);
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        setOpen(dock.dataset.open !== "true");
+      });
+    });
+
+    if (close) {
+      close.addEventListener("click", () => {
+        setOpen(false);
+      });
+    }
+
+    options.forEach((option) => {
+      option.addEventListener("click", () => {
+        const prop = option.getAttribute("data-theme-prop");
+        const value = option.getAttribute("data-theme-value");
+        if (!prop || !value) return;
+
+        const nextTheme = {
+          ...themeStore.read(),
+          [prop]: value
+        };
+
+        sync(themeStore.apply(nextTheme, true, { reason: "theme-toggle", changedProp: prop }));
+        setOpen(false);
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (dock.dataset.open !== "true") return;
+      if (!dock.contains(event.target)) setOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
+    });
+
+    window.addEventListener("julie-theme-panel-toggle", (event) => {
+      const requestedState = event?.detail?.open;
+
+      if (typeof requestedState === "boolean") {
+        setOpen(requestedState);
+        return;
+      }
+
+      setOpen(dock.dataset.open !== "true");
+    });
+
+    window.addEventListener("julie-theme-change", (event) => {
+      if (!event.detail) return;
+      sync(event.detail);
+    });
+  })();
+</script> </div> </body></html>

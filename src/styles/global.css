@@ -588,6 +588,10 @@ textarea {
   padding: 1rem 0;
 }
 
+.header-inner {
+  position: relative;
+}
+
 .brand-lockup {
   display: inline-flex;
   flex-direction: column;
@@ -611,6 +615,46 @@ textarea {
   font-size: 1.4rem;
   font-weight: 600;
   letter-spacing: -0.02em;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+}
+
+.nav-toggle span {
+  display: block;
+  width: 1.1rem;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.nav-toggle span + span {
+  margin-top: 0.22rem;
+}
+
+.site-header[data-menu-open="true"] .nav-toggle span:nth-child(1) {
+  transform: translateY(0.4rem) rotate(45deg);
+}
+
+.site-header[data-menu-open="true"] .nav-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.site-header[data-menu-open="true"] .nav-toggle span:nth-child(3) {
+  transform: translateY(-0.4rem) rotate(-45deg);
 }
 
 .nav-list,
@@ -2635,7 +2679,42 @@ textarea {
     max-inline-size: 100%;
   }
 
+  .header-inner {
+    align-items: flex-start;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    position: absolute;
+    top: 1rem;
+    right: 0;
+    z-index: 2;
+  }
+
+  .site-header nav[aria-label="Primary"] {
+    width: 100%;
+    display: none;
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid var(--header-border);
+    border-radius: calc(var(--radius-lg) - 4px);
+    background: color-mix(in srgb, var(--surface) 92%, white 8%);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .site-header[data-menu-open="true"] nav[aria-label="Primary"] {
+    display: block;
+  }
+
   .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.35rem;
+  }
+
+  .nav-list a {
+    width: 100%;
     justify-content: flex-start;
   }
 
@@ -2703,6 +2782,12 @@ textarea {
   .theme-intro[data-theme="jurassic"] .theme-intro__ornament--c {
     right: 2%;
     width: 34vw;
+  }
+}
+
+@media (min-width: 761px) {
+  .site-header nav[aria-label="Primary"] {
+    display: block !important;
   }
 }
 

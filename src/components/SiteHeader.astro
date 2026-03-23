@@ -13,7 +13,20 @@ const currentPath = normalizedBase && rawPath.startsWith(normalizedBase) ? rawPa
       <span class="brand-name">{siteMeta.name}</span>
     </a>
 
-    <nav aria-label="Primary">
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primary-navigation"
+      aria-label="Open navigation menu"
+      data-nav-toggle
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="primary-navigation" aria-label="Primary" data-nav-menu>
       <ul class="nav-list">
         {navLinks.map((item) => {
           const isActive = currentPath === item.href;
@@ -30,3 +43,56 @@ const currentPath = normalizedBase && rawPath.startsWith(normalizedBase) ? rawPa
     </nav>
   </div>
 </header>
+
+<script is:inline>
+  (() => {
+    const header = document.querySelector(".site-header");
+    const toggle = header?.querySelector("[data-nav-toggle]");
+    const menu = header?.querySelector("[data-nav-menu]");
+
+    if (!header || !toggle || !menu) return;
+
+    const closeMenu = () => {
+      header.dataset.menuOpen = "false";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Open navigation menu");
+    };
+
+    const openMenu = () => {
+      header.dataset.menuOpen = "true";
+      toggle.setAttribute("aria-expanded", "true");
+      toggle.setAttribute("aria-label", "Close navigation menu");
+    };
+
+    const isDesktop = () => window.innerWidth > 760;
+
+    toggle.addEventListener("click", () => {
+      if (header.dataset.menuOpen === "true") {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (isDesktop() || header.dataset.menuOpen !== "true") return;
+      if (!header.contains(event.target)) closeMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (!isDesktop()) closeMenu();
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      if (isDesktop()) closeMenu();
+    });
+
+    closeMenu();
+  })();
+</script>

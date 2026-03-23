@@ -22,8 +22,9 @@
 - Refining the ER theme so it feels more like chart software.
 - Adding more retro desktop interactivity, including a Start menu, application icons, and in-app section switching.
 - Fine-tuning the Star Wars crawl so the scrolling text is larger and slower.
+- Switching GitHub Pages publishing to a more reliable branch-based workflow.
 
 ## Still To Do
 - Connect the live contact form and scheduling links.
 - Add the final downloadable CV file if needed.
-- Publish the site through a GitHub repository and GitHub Pages.
+- Finish the GitHub Pages launch configuration.

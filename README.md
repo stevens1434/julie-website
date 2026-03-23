@@ -20,10 +20,21 @@ Use relative paths for local public assets so the build can prefix them correctl
 ## Deployment
 
 1. Create a GitHub repository and push this project.
-2. In the repository settings, enable GitHub Pages with GitHub Actions.
-3. Add repository variables if you want to configure the form endpoint, booking link, or asset paths without committing them.
-4. Merge or push to `main` to trigger deployment.
+2. In the repository settings, enable GitHub Pages with `Deploy from a branch`.
+3. Select the `gh-pages` branch and the `/ (root)` folder.
+4. Add repository variables if you want to configure the form endpoint, booking link, or asset paths without committing them.
+5. Merge or push to `main` to trigger deployment.
 
+The workflow publishes the built site to the `gh-pages` branch automatically.
+
+The build computes the correct base path automatically for either:
+
+- `https://<user>.github.io`
+- `https://<user>.github.io/<repo>`
+
+If this repository is a project site instead of a user site, the expected URL will be:
+
+- `https://<user>.github.io/<repo>/`
 ## Content Updates
 
 - Update structured content in `src/data/site.ts`.

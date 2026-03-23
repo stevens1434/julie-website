@@ -23,8 +23,9 @@
 - Adding more retro desktop interactivity, including a Start menu, application icons, and in-app section switching.
 - Fine-tuning the Star Wars crawl so the scrolling text is larger and slower.
 - Switching GitHub Pages publishing to a more reliable branch-based workflow.
+- Correcting the GitHub Pages project-site path handling so deployed subpages work outside the homepage.
 
 ## Still To Do
 - Connect the live contact form and scheduling links.
 - Add the final downloadable CV file if needed.
-- Finish the GitHub Pages launch configuration.
+- Finish the GitHub Pages launch configuration and verify all deployed routes load correctly.

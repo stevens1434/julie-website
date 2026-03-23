@@ -14,7 +14,8 @@ interface Props {
 }
 
 const { title, description, pathname = "/" } = Astro.props;
-const canonical = Astro.site ? new URL(pathname, Astro.site).toString() : undefined;
+const canonicalPath = withBase(pathname);
+const canonical = Astro.site ? new URL(canonicalPath, Astro.site).toString() : undefined;
 const previewImage = Astro.site ? new URL(withBase(contactConfig.headshotPath), Astro.site).toString() : undefined;
 
 const schema: Record<string, unknown> = {

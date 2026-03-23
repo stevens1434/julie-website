@@ -1,4 +1,5 @@
 const clean = (value?: string) => value?.trim() ?? "";
+const baseUrl = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 
 export const withBase = (path: string) => {
   if (!path) return "";
@@ -6,7 +7,11 @@ export const withBase = (path: string) => {
     return path;
   }
 
-  return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
+  if (path === "/") {
+    return baseUrl;
+  }
+
+  return `${baseUrl}${path.replace(/^\/+/, "")}`;
 };
 
 export const siteMeta = {

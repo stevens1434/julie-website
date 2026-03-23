@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+roadmap.private.md
+.env
+.env.*
+!.env.example
+.DS_Store

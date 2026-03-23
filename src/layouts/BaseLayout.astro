@@ -1,0 +1,194 @@
+---
+import ImmersiveThemeShell from "../components/ImmersiveThemeShell.astro";
+import ThemeControl from "../components/ThemeControl.astro";
+import ThemeIntro from "../components/ThemeIntro.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { contactConfig, focusAreas, siteMeta, withBase } from "../data/site";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  pathname?: string;
+}
+
+const { title, description, pathname = "/" } = Astro.props;
+const canonical = Astro.site ? new URL(pathname, Astro.site).toString() : undefined;
+const previewImage = Astro.site ? new URL(withBase(contactConfig.headshotPath), Astro.site).toString() : undefined;
+
+const schema: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: siteMeta.name,
+  honorificSuffix: siteMeta.credentials,
+  jobTitle: siteMeta.role,
+  description,
+  email: `mailto:${contactConfig.publicEmail}`,
+  address: {
+    "@type": "PostalAddress",
+    addressRegion: siteMeta.location,
+    addressCountry: "US"
+  },
+  alumniOf: [
+    {
+      "@type": "CollegeOrUniversity",
+      name: siteMeta.institution
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      name: "University of Washington"
+    }
+  ],
+  sameAs: [contactConfig.linkedinUrl],
+  knowsAbout: focusAreas.map((item) => item.title)
+};
+
+if (canonical) schema.url = canonical;
+if (previewImage) schema.image = previewImage;
+---
+
+<!doctype html>
+<html lang="en" data-color-mode="light" data-creative-theme="standard">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#edf4f1" id="theme-color-meta" />
+    <script is:inline>
+      (() => {
+        const storageKey = "julie-appearance-preferences";
+        const defaults = {
+          colorMode: "light",
+          creativeTheme: "standard"
+        };
+        const validOptions = {
+          colorMode: new Set(["light", "dark"]),
+          creativeTheme: new Set(["standard", "retro", "starwars", "jurassic", "er"])
+        };
+
+        const normalize = (value = {}) => {
+          const legacyRetroTheme =
+            value?.creativeTheme === "standard" && value?.eraMode === "retro" ? "retro" : value?.creativeTheme;
+
+          return {
+            colorMode: validOptions.colorMode.has(value?.colorMode) ? value.colorMode : defaults.colorMode,
+            creativeTheme: validOptions.creativeTheme.has(legacyRetroTheme) ? legacyRetroTheme : defaults.creativeTheme
+          };
+        };
+
+        const readStoredValue = () => {
+          try {
+            const raw = window.localStorage.getItem(storageKey);
+            return raw ? JSON.parse(raw) : null;
+          } catch (error) {
+            return null;
+          }
+        };
+
+        const read = () => normalize(readStoredValue() ?? defaults);
+
+        const readCurrent = () =>
+          normalize({
+            colorMode: document.documentElement.dataset.colorMode,
+            creativeTheme: document.documentElement.dataset.creativeTheme
+          });
+
+        const apply = (theme, persist = false, eventMeta = { reason: "programmatic" }) => {
+          const normalized = normalize(theme);
+          const root = document.documentElement;
+          const previous = readCurrent();
+          root.dataset.colorMode = normalized.colorMode;
+          root.dataset.creativeTheme = normalized.creativeTheme;
+          root.style.colorScheme =
+            normalized.creativeTheme === "starwars" || normalized.creativeTheme === "jurassic"
+              ? "dark"
+              : normalized.creativeTheme === "retro" || normalized.creativeTheme === "er"
+                ? "light"
+              : normalized.colorMode === "dark"
+                ? "dark"
+                : "light";
+
+          const themeColorMeta = document.getElementById("theme-color-meta");
+          if (themeColorMeta) {
+            const themeColor =
+              normalized.creativeTheme === "retro"
+                ? "#efe5cb"
+                : normalized.creativeTheme === "starwars"
+                  ? "#040916"
+                  : normalized.creativeTheme === "jurassic"
+                    ? "#1a2816"
+                    : normalized.creativeTheme === "er"
+                      ? "#edf7f8"
+                    : normalized.colorMode === "dark"
+                      ? "#0d1518"
+                      : "#edf4f1";
+            themeColorMeta.setAttribute("content", themeColor);
+          }
+
+          if (persist) {
+            try {
+              window.localStorage.setItem(storageKey, JSON.stringify(normalized));
+            } catch (error) {
+            }
+          }
+
+          window.dispatchEvent(
+            new CustomEvent("julie-theme-change", {
+              detail: {
+                ...normalized,
+                __meta: eventMeta,
+                __previous: previous
+              }
+            })
+          );
+          return normalized;
+        };
+
+        window.__JULIE_THEME__ = {
+          defaults,
+          read,
+          apply
+        };
+
+        const storedValue = readStoredValue();
+        const normalizedStoredValue = normalize(storedValue ?? defaults);
+        const shouldPersistMigration =
+          Boolean(storedValue) &&
+          typeof storedValue === "object" &&
+          Object.keys(storedValue).some((key) => !["colorMode", "creativeTheme"].includes(key));
+
+        apply(normalizedStoredValue, shouldPersistMigration, { reason: "boot" });
+      })();
+    </script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {previewImage && <meta property="og:image" content={previewImage} />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/svg+xml" href={withBase("favicon.svg")} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="site-shell">
+      <div class="site-core" data-site-core>
+        <SiteHeader />
+        <main id="main" class="page-shell">
+          <slot />
+        </main>
+        <SiteFooter />
+      </div>
+      <ImmersiveThemeShell pathname={pathname} />
+      <ThemeIntro />
+      <ThemeControl />
+    </div>
+  </body>
+</html>

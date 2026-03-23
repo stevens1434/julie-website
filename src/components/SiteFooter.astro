@@ -1,0 +1,20 @@
+---
+import { contactConfig, siteMeta, withBase } from "../data/site";
+---
+
+<footer class="site-footer">
+  <div class="shell shell--wide footer-inner">
+    <div>
+      <p class="footer-title">{siteMeta.name}</p>
+      <p class="footer-copy">
+        Employer portfolio for a nurse leader transitioning from extensive bedside practice into family nurse practitioner care.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <a href={`mailto:${contactConfig.publicEmail}`}>{contactConfig.publicEmail}</a>
+      <a href={contactConfig.linkedinUrl} target="_blank" rel="noreferrer">LinkedIn</a>
+      <a href={withBase("/cv-contact")}>CV & Contact</a>
+    </div>
+  </div>
+</footer>

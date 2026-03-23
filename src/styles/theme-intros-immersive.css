@@ -1,0 +1,769 @@
+.cinema-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+.cinema-intro[hidden] {
+  display: none;
+}
+
+.cinema-intro[data-state="open"],
+.cinema-intro[data-state="opening"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cinema-intro[data-state="closing"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cinema-intro__scrim,
+.cinema-intro__experience,
+.starwars-intro,
+.jurassic-intro,
+.retro-intro {
+  position: absolute;
+  inset: 0;
+}
+
+.cinema-intro__scrim {
+  background: rgba(0, 0, 0, 0.92);
+}
+
+.cinema-intro__skip {
+  position: absolute;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  z-index: 10;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(4, 8, 16, 0.92);
+  color: #fff8e8;
+  font: 600 0.95rem/1 "Work Sans", Arial, sans-serif;
+  cursor: pointer;
+}
+
+.cinema-intro__disclaimer {
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  width: min(50rem, calc(100vw - 2.5rem));
+  transform: translateX(-50%);
+  text-align: center;
+  opacity: 0;
+  z-index: 8;
+}
+
+.cinema-intro__disclaimer-label {
+  margin: 0 0 0.7rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.cinema-intro__disclaimer p:last-child {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.starwars-intro {
+  --starwars-duration: 36s;
+  overflow: hidden;
+  background: #000000;
+  color: #f3d37a;
+}
+
+.starwars-intro__space {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 8% 14%, rgba(255, 255, 255, 0.98) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 14% 64%, rgba(255, 255, 255, 0.74) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 22% 28%, rgba(255, 255, 255, 0.88) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 34% 82%, rgba(255, 255, 255, 0.74) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 42% 18%, rgba(255, 255, 255, 0.92) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 48% 50%, rgba(255, 255, 255, 0.82) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 56% 72%, rgba(255, 255, 255, 0.78) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 64% 24%, rgba(255, 255, 255, 0.9) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 46%, rgba(255, 255, 255, 0.74) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 82% 16%, rgba(255, 255, 255, 0.86) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 90% 34%, rgba(255, 255, 255, 0.92) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 94% 74%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 5% 88%, rgba(255, 255, 255, 0.76) 0 1px, transparent 1.5px),
+    #000000;
+}
+
+.starwars-intro__prelude {
+  position: absolute;
+  inset: 22% 0 auto;
+  margin: 0 auto;
+  width: min(48rem, calc(100vw - 2rem));
+  color: #4db5ff;
+  text-align: center;
+  font: 400 clamp(1.5rem, 2.8vw, 2.5rem) / 1.44 "Helvetica Neue", Arial, sans-serif;
+  opacity: 0;
+  animation: starwars-prelude var(--starwars-duration) linear forwards;
+}
+
+.starwars-intro__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  gap: 0;
+  transform: translate(-50%, -50%) scale(4.35);
+  opacity: 0;
+  text-align: center;
+  animation: starwars-logo var(--starwars-duration) linear forwards;
+}
+
+.starwars-intro__logo span {
+  display: block;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: clamp(4.1rem, 11vw, 9.6rem);
+  line-height: 0.83;
+  letter-spacing: 0.06em;
+  color: transparent;
+  -webkit-text-stroke: 0.19rem #f6c84a;
+  text-shadow: 0 0 3px rgba(246, 200, 74, 0.32);
+}
+
+.starwars-intro__crawl-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  perspective: 420px;
+}
+
+.starwars-intro__crawl-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.96) 9%, transparent 18%, transparent 84%, #000 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.96), transparent 12%);
+  z-index: 4;
+}
+
+.starwars-intro__crawl {
+  position: absolute;
+  left: 50%;
+  bottom: -108vh;
+  width: 92vw;
+  max-width: 92vw;
+  color: #f3d37a;
+  font: 700 clamp(1.5rem, 2.75vw, 2.85rem) / 1.5 "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 0.012em;
+  transform-origin: 50% 100%;
+  transform: translateX(-50%) rotateX(23deg);
+  text-align: justify;
+  opacity: 0;
+  animation: starwars-crawl var(--starwars-duration) linear forwards;
+  z-index: 2;
+}
+
+.starwars-intro__episode,
+.starwars-intro__title {
+  text-align: center;
+}
+
+.starwars-intro__episode {
+  margin: 0 0 0.9rem;
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  letter-spacing: 0.14em;
+}
+
+.starwars-intro__title {
+  margin: 0 0 1.6rem;
+  font-size: clamp(2.5rem, 4.6vw, 4.4rem);
+  line-height: 1.04;
+}
+
+.starwars-intro__crawl p {
+  margin: 0 0 1.8rem;
+}
+
+.cinema-intro__disclaimer--starwars {
+  color: #f8e9c8;
+  animation: intro-disclaimer-starwars var(--starwars-duration) linear forwards;
+}
+
+.jurassic-intro {
+  --jurassic-duration: 15s;
+  overflow: hidden;
+  background: #07100a;
+  color: #fff2cd;
+}
+
+.jurassic-intro__art,
+.jurassic-intro__atmosphere {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.jurassic-intro__art {
+  animation: jurassic-camera var(--jurassic-duration) cubic-bezier(0.24, 0.02, 0.22, 1) forwards;
+}
+
+.jurassic-intro__atmosphere {
+  background:
+    radial-gradient(circle at 18% 74%, rgba(255, 245, 220, 0.18), transparent 19%),
+    radial-gradient(circle at 50% 80%, rgba(255, 245, 220, 0.12), transparent 20%),
+    radial-gradient(circle at 82% 76%, rgba(255, 245, 220, 0.16), transparent 18%);
+  filter: blur(18px);
+  opacity: 0.36;
+  animation: jurassic-atmosphere var(--jurassic-duration) linear forwards;
+}
+
+.jurassic-intro__fog-band {
+  transform-origin: center center;
+  animation: jurassic-fog 7.2s ease-in-out infinite alternate;
+}
+
+.jurassic-intro__fog-band--mid {
+  animation-delay: -2.2s;
+}
+
+.jurassic-intro__fog-band--far {
+  animation-delay: -4.4s;
+}
+
+.jurassic-intro__gate--left,
+.jurassic-intro__gate--right {
+  transform-box: fill-box;
+  animation-duration: var(--jurassic-duration);
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+.jurassic-intro__gate--left {
+  transform-origin: right center;
+  animation-name: jurassic-gate-left;
+}
+
+.jurassic-intro__gate--right {
+  transform-origin: left center;
+  animation-name: jurassic-gate-right;
+}
+
+.jurassic-intro__jeep {
+  transform-origin: center center;
+  animation: jurassic-jeep var(--jurassic-duration) ease-in-out forwards;
+}
+
+.jurassic-intro__beam-group {
+  animation: jurassic-beam var(--jurassic-duration) ease-in-out forwards;
+}
+
+.jurassic-intro__torchlight {
+  animation: jurassic-torch 1.6s ease-in-out infinite alternate;
+}
+
+.jurassic-intro__flame {
+  transform-origin: center bottom;
+  animation: jurassic-flame 1.15s ease-in-out infinite alternate;
+}
+
+.jurassic-intro__flame--core {
+  animation-delay: -0.28s;
+}
+
+.cinema-intro__disclaimer--jurassic {
+  color: #fff0cb;
+  animation: intro-disclaimer-jurassic var(--jurassic-duration) linear forwards;
+}
+
+.retro-intro {
+  --retro-duration: 7.8s;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #b8b8b8;
+}
+
+.retro-intro__screen {
+  width: min(46rem, calc(100vw - 2rem));
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: #efead6;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.34);
+}
+
+.retro-intro__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.retro-intro__brand-mark {
+  position: relative;
+  width: 5rem;
+  aspect-ratio: 1;
+}
+
+.retro-intro__brand-mark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #163d82;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.retro-intro__brand-mark span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.35rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -35%);
+  background: #0d326f;
+  box-shadow: inset 0 0 0 0.16rem rgba(255, 255, 255, 0.2);
+}
+
+.retro-intro__brand-copy {
+  display: grid;
+  justify-items: center;
+  color: #153f83;
+}
+
+.retro-intro__brand-copy small {
+  letter-spacing: 0.42em;
+  font: 700 0.82rem/1 Arial, Helvetica, sans-serif;
+}
+
+.retro-intro__brand-copy strong {
+  font: italic 700 clamp(2.5rem, 6vw, 4.1rem) / 0.9 Georgia, "Times New Roman", serif;
+}
+
+.retro-intro__panels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.35rem;
+}
+
+.retro-intro__panel {
+  aspect-ratio: 1.2;
+  border: 0.24rem solid #173b7a;
+  background: #c6c4f6;
+  box-shadow:
+    inset 0 0 0 0.12rem #ffffff,
+    0 4px 0 rgba(19, 59, 122, 0.18);
+  display: grid;
+  place-items: center;
+}
+
+.retro-intro__panel svg {
+  width: 72%;
+  height: auto;
+}
+
+.retro-intro__panel--motion svg,
+.retro-intro__panel--connected .retro-intro__connected-mark {
+  opacity: 0;
+}
+
+.retro-intro__panel--motion svg {
+  animation: retro-motion-panel var(--retro-duration) linear forwards;
+}
+
+.retro-intro__panel--connected .retro-intro__connected-mark {
+  animation: retro-connected-panel var(--retro-duration) linear forwards;
+}
+
+.retro-intro__connected-mark {
+  position: relative;
+  width: 72%;
+  height: 72%;
+}
+
+.retro-intro__connected-triangle {
+  position: absolute;
+  inset: 8% 18% 10%;
+  background: #173b7a;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.retro-intro__connected-orb {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  width: 34%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: #e7f5ff;
+  box-shadow: inset 0 0 0 0.14rem #173b7a;
+}
+
+.retro-intro__connected-splash {
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  width: 56%;
+  height: 18%;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(circle at 14% 40%, #7be1ff 0 30%, transparent 31%),
+    radial-gradient(circle at 50% 55%, #ffd867 0 30%, transparent 31%),
+    radial-gradient(circle at 86% 40%, #ff6150 0 30%, transparent 31%);
+}
+
+.retro-intro__status {
+  margin: 0.9rem 0 0;
+  color: #2a2a2a;
+  text-align: center;
+  font: 400 clamp(1.15rem, 2.4vw, 2rem) / 1.1 "Trebuchet MS", Arial, sans-serif;
+  opacity: 0;
+}
+
+.retro-intro__status--dialing {
+  animation: retro-dialing var(--retro-duration) linear forwards;
+}
+
+.retro-intro__status--connected {
+  animation: retro-connected var(--retro-duration) linear forwards;
+}
+
+.retro-intro__divider {
+  width: 72%;
+  height: 0.18rem;
+  margin: 1rem auto 0;
+  background: #1e1e1e;
+}
+
+.cinema-intro__disclaimer--retro {
+  color: #faf5e8;
+  animation: intro-disclaimer-retro var(--retro-duration) linear forwards;
+}
+
+@keyframes starwars-prelude {
+  0%,
+  8% {
+    opacity: 0;
+  }
+  10%,
+  22% {
+    opacity: 1;
+  }
+  26%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes starwars-logo {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(4.35);
+  }
+  34% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.16);
+  }
+  38%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.08);
+  }
+}
+
+@keyframes starwars-crawl {
+  0%,
+  34% {
+    opacity: 0;
+  }
+  36% {
+    opacity: 1;
+    transform: translateX(-50%) rotateX(23deg) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) rotateX(23deg) translateY(-360rem);
+  }
+}
+
+@keyframes intro-disclaimer-starwars {
+  0%,
+  92% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.75rem);
+  }
+  95%,
+  99% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes jurassic-camera {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  54% {
+    transform: scale(1.03) translateY(-0.35rem);
+  }
+  100% {
+    transform: scale(1.09) translateY(0.2rem);
+  }
+}
+
+@keyframes jurassic-atmosphere {
+  0%,
+  10% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.52;
+  }
+  100% {
+    opacity: 0.36;
+  }
+}
+
+@keyframes jurassic-fog {
+  from {
+    opacity: 0.2;
+    transform: translateX(-1.1rem) scale(0.98);
+  }
+  to {
+    opacity: 0.42;
+    transform: translateX(1.1rem) scale(1.03);
+  }
+}
+
+@keyframes jurassic-gate-left {
+  0%,
+  28% {
+    transform: translateX(0) rotate(0deg);
+  }
+  62%,
+  100% {
+    transform: translateX(-146px) rotate(-18deg);
+  }
+}
+
+@keyframes jurassic-gate-right {
+  0%,
+  28% {
+    transform: translateX(0) rotate(0deg);
+  }
+  62%,
+  100% {
+    transform: translateX(146px) rotate(18deg);
+  }
+}
+
+@keyframes jurassic-jeep {
+  0% {
+    transform: translateY(190px) scale(0.28);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  44% {
+    transform: translateY(64px) scale(0.56);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(6px) scale(0.92);
+    opacity: 1;
+  }
+  84% {
+    transform: translateY(-12px) scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(166px) scale(1.28);
+    opacity: 1;
+  }
+}
+
+@keyframes jurassic-beam {
+  0%,
+  10% {
+    opacity: 0;
+  }
+  18%,
+  72% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.28;
+  }
+}
+
+@keyframes jurassic-torch {
+  from {
+    opacity: 0.42;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 0.84;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes jurassic-flame {
+  from {
+    transform: scaleY(0.94) translateY(0.08rem);
+    opacity: 0.86;
+  }
+  to {
+    transform: scaleY(1.08) translateY(-0.2rem);
+    opacity: 1;
+  }
+}
+
+@keyframes intro-disclaimer-jurassic {
+  0%,
+  84% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.8rem);
+  }
+  88%,
+  98% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes retro-motion-panel {
+  0%,
+  28% {
+    opacity: 0;
+    transform: translateX(-0.4rem);
+  }
+  36%,
+  62% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  72%,
+  100% {
+    opacity: 0.24;
+    transform: translateX(0);
+  }
+}
+
+@keyframes retro-connected-panel {
+  0%,
+  58% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  66%,
+  86% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+
+@keyframes retro-dialing {
+  0%,
+  56% {
+    opacity: 1;
+  }
+  64%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes retro-connected {
+  0%,
+  58% {
+    opacity: 0;
+  }
+  66%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes intro-disclaimer-retro {
+  0%,
+  82% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.7rem);
+  }
+  88%,
+  98% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starwars-intro__prelude,
+  .starwars-intro__logo,
+  .starwars-intro__crawl,
+  .cinema-intro__disclaimer,
+  .jurassic-intro__art,
+  .jurassic-intro__atmosphere,
+  .jurassic-intro__gate--left,
+  .jurassic-intro__gate--right,
+  .jurassic-intro__jeep,
+  .retro-intro__panel--motion svg,
+  .retro-intro__panel--connected .retro-intro__connected-mark,
+  .retro-intro__status {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .starwars-intro__crawl {
+    width: 95vw;
+    max-width: 95vw;
+    font-size: clamp(1.2rem, 4.9vw, 1.75rem);
+  }
+
+  .retro-intro__screen {
+    width: calc(100vw - 1.25rem);
+    padding: 1rem;
+  }
+
+  .retro-intro__brand {
+    gap: 0.65rem;
+  }
+
+  .retro-intro__brand-mark {
+    width: 3.8rem;
+  }
+}

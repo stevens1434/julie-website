@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { leadershipOverview, leadershipPillars, leadershipSummary, scholarlyProject, serviceOrientationText } from "../data/site";
+---
+
+<BaseLayout
+  title="Leadership & Scholarship | Julie Stevens"
+  description="Read Julie Stevens' leadership philosophy and DNP quality improvement work focused on diabetic eye screening access."
+  pathname="/leadership-scholarship"
+>
+  <section class="page-hero page-hero--compact">
+    <div class="hero-copy">
+      <p class="eyebrow">Leadership & Scholarship</p>
+      <h1 class="page-title">{leadershipOverview.title}</h1>
+      <p class="page-lede">{leadershipOverview.text}</p>
+    </div>
+
+    <div class="section-card hero-side-card">
+      <p class="card-label">Leadership Summary</p>
+      {leadershipSummary.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="eyebrow">Leadership Pillars</p>
+      <h2>How Julie frames professional responsibility</h2>
+    </div>
+
+    <div class="cards-grid">
+      {leadershipPillars.map((pillar) => (
+        <article class="section-card feature-card">
+          <h3>{pillar.title}</h3>
+          <p>{pillar.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-section two-column-section">
+    <div class="section-card callout-card">
+      <p class="card-label">Scholarly Work</p>
+      <h2>{scholarlyProject.title}</h2>
+      <p>{scholarlyProject.introduction}</p>
+      <p>{scholarlyProject.whyItMatters}</p>
+      <div class="detail-pair">
+        <span>Setting</span>
+        <strong>{scholarlyProject.setting}</strong>
+      </div>
+      <div class="detail-pair">
+        <span>Project timeline</span>
+        <strong>{scholarlyProject.timeline}</strong>
+      </div>
+      <div class="detail-pair">
+        <span>Planned completion</span>
+        <strong>{scholarlyProject.completion}</strong>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <p class="card-label">Quality Improvement Question</p>
+      <h2>Project question</h2>
+      <p class="quoted-text">{scholarlyProject.question}</p>
+      <p>{scholarlyProject.aim}</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-card">
+      <p class="card-label">Service Orientation</p>
+      <h2>Community involvement informs Julie's practice direction</h2>
+      <p>{serviceOrientationText}</p>
+    </div>
+  </section>
+</BaseLayout>

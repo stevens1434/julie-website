@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../data/site";
+---
+
+<BaseLayout
+  title="Page Not Found | Julie Stevens"
+  description="The page you requested could not be found."
+  pathname="/404"
+>
+  <section class="content-section">
+    <div class="section-card callout-card">
+      <p class="eyebrow">404</p>
+      <h1 class="page-title">Page not found</h1>
+      <p>The requested page does not exist. Use the main navigation or return to the homepage.</p>
+      <a class="button" href={withBase("/")}>Return Home</a>
+    </div>
+  </section>
+</BaseLayout>

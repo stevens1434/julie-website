@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { bestFitOpportunities, careArc, certifications, clinicalOverview, clinicalSettings, rotations, withBase } from "../data/site";
+---
+
+<BaseLayout
+  title="Clinical Experience | Julie Stevens"
+  description="Review Julie Stevens' advanced practice rotations, clinical settings, certifications, and bedside nursing arc."
+  pathname="/clinical-experience"
+>
+  <section class="page-hero page-hero--compact">
+    <div class="hero-copy">
+      <p class="eyebrow">Clinical Experience</p>
+      <h1 class="page-title">{clinicalOverview.title}</h1>
+      <p class="page-lede">{clinicalOverview.text}</p>
+    </div>
+
+    <div class="section-card hero-side-card">
+      <p class="card-label">Practice Settings</p>
+      <ul class="chip-list">
+        {clinicalSettings.map((setting) => (
+          <li>{setting}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="eyebrow">Advanced Practice Rotations</p>
+      <h2>Documented clinical placements</h2>
+    </div>
+
+    <div class="cards-grid cards-grid--tight">
+      {rotations.map((rotation) => (
+        <article class="section-card rotation-card">
+          <p class="card-label">{rotation.focus}</p>
+          <h3>{rotation.preceptor}</h3>
+          <p>{rotation.location}</p>
+          <p class="rotation-dates">{rotation.dates}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="eyebrow">Bedside Nursing Arc</p>
+      <h2>Career experiences that shape Julie's advanced practice approach</h2>
+    </div>
+
+    <div class="cards-grid">
+      {careArc.map((item) => (
+        <article class="section-card feature-card">
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-section two-column-section">
+    <div class="section-card">
+      <p class="card-label">Certifications & Licensure</p>
+      <h2>Current credentials</h2>
+      <div class="credential-list">
+        {certifications.map((certification) => (
+          <article class="credential-item">
+            <h3>{certification.name}</h3>
+            <p>{certification.issuer}</p>
+            <p class="small-note">{certification.dates}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="section-card callout-card">
+      <p class="card-label">Best Fit Opportunities</p>
+      <h2>Roles aligned with Julie's experience and trajectory</h2>
+      <ul class="plain-list">
+        {bestFitOpportunities.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <a class="button button--secondary" href={withBase("/cv-contact")}>Review full CV and contact details</a>
+    </div>
+  </section>
+</BaseLayout>

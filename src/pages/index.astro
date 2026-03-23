@@ -1,0 +1,131 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { careArc, clinicalSettings, contactConfig, focusAreas, homeStats, scholarlyProject, siteMeta, withBase } from "../data/site";
+
+const heroMedia = withBase(contactConfig.headshotPath);
+const heroAlt = "Portrait of Julie Stevens with arms crossed";
+---
+
+<BaseLayout
+  title="Julie Stevens | DNP-FNP Candidate"
+  description="Employer-facing portfolio for Julie Stevens, a DNP-FNP student with extensive bedside nursing experience and a strong focus on family-centered primary care."
+  pathname="/"
+>
+  <section class="page-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Employer Portfolio</p>
+      <h1 class="page-title">
+        Julie Stevens, <span>{siteMeta.credentials}</span>
+      </h1>
+      <p class="page-subtitle">{siteMeta.role} | {siteMeta.institution}</p>
+      <p class="page-lede">
+        A nurse leader with more than 16 years of bedside experience who is transitioning into family nurse practitioner practice
+        with a strong commitment to equitable, family-centered care.
+      </p>
+
+      <div class="button-row">
+        <a class="button" href={withBase("/cv-contact")}>View CV & Contact</a>
+        <a class="button button--secondary" href={withBase("/clinical-experience")}>Explore Clinical Experience</a>
+      </div>
+
+      <ul class="inline-list">
+        <li>University of Michigan-Flint DNP-FNP student</li>
+        <li>Michigan-based clinical practice</li>
+        <li>Critical care to primary care trajectory</li>
+      </ul>
+    </div>
+
+    <aside class="hero-panel">
+      <div class="hero-media-shell">
+        <img class="hero-media" src={heroMedia} alt={heroAlt} loading="eager" />
+      </div>
+
+      <div class="section-card profile-summary">
+        <p class="card-label">Candidate Snapshot</p>
+        <h2>Clinical depth with a prevention-focused future</h2>
+        <p>
+          Julie brings pediatric nephrology, PICU, cardiac intensive care, travel nursing, and community-based advanced practice
+          training into a polished, employer-ready profile.
+        </p>
+        <a class="text-link" href={contactConfig.linkedinUrl} target="_blank" rel="noreferrer">View LinkedIn profile</a>
+      </div>
+    </aside>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="eyebrow">At a Glance</p>
+      <h2>What employers can assess quickly</h2>
+    </div>
+
+    <div class="stats-grid">
+      {homeStats.map((stat) => (
+        <article class="section-card stat-card">
+          <p class="stat-value">{stat.value}</p>
+          <h3>{stat.label}</h3>
+          <p>{stat.detail}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="eyebrow">Practice Lens</p>
+      <h2>How Julie stands out as a candidate</h2>
+    </div>
+
+    <div class="cards-grid">
+      {focusAreas.map((area) => (
+        <article class="section-card feature-card">
+          <h3>{area.title}</h3>
+          <p>{area.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-section two-column-section">
+    <div class="section-card callout-card">
+      <p class="card-label">Current Scholarly Focus</p>
+      <h2>{scholarlyProject.title}</h2>
+      <p>{scholarlyProject.introduction}</p>
+      <p>{scholarlyProject.aim}</p>
+      <div class="detail-pair">
+        <span>Timeline</span>
+        <strong>{scholarlyProject.timeline}</strong>
+      </div>
+      <div class="detail-pair">
+        <span>Expected completion</span>
+        <strong>{scholarlyProject.completion}</strong>
+      </div>
+      <a class="text-link" href={withBase("/leadership-scholarship")}>Read more about leadership and scholarship</a>
+    </div>
+
+    <div class="section-card">
+      <p class="card-label">Care Environments</p>
+      <h2>Clinical exposure across high-acuity and outpatient settings</h2>
+      <ul class="chip-list">
+        {clinicalSettings.map((setting) => (
+          <li>{setting}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="eyebrow">Career Direction</p>
+      <h2>The path from bedside leadership to advanced practice</h2>
+    </div>
+
+    <div class="cards-grid">
+      {careArc.map((item) => (
+        <article class="section-card feature-card">
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

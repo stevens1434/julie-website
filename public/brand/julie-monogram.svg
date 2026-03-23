@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">Julie Stevens monogram</title>
+  <desc id="desc">A professional monogram badge with the initials J S.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#eff6f3" />
+      <stop offset="50%" stop-color="#d9ebe6" />
+      <stop offset="100%" stop-color="#b8d3ce" />
+    </linearGradient>
+    <linearGradient id="stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d5965" />
+      <stop offset="100%" stop-color="#17424a" />
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="40" fill="url(#bg)" />
+  <path d="M65 84h190" fill="none" stroke="#8ea9a5" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 7" />
+  <path d="M65 236h190" fill="none" stroke="#8ea9a5" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 7" />
+  <path d="M88 122c19-27 44-40 75-40 24 0 44 7 61 21 18 15 27 34 27 58 0 29-13 52-39 69-21 14-45 21-72 21-34 0-64-13-90-38" fill="none" stroke="url(#stroke)" stroke-width="11" stroke-linecap="round" />
+  <path d="M126 86v94c0 20-4 34-13 43-9 9-21 13-35 13" fill="none" stroke="#17424a" stroke-width="12" stroke-linecap="round" />
+  <path d="M196 98c-16 0-29 4-39 11-10 8-15 18-15 31 0 12 4 21 13 28 8 7 23 14 43 20 20 7 35 15 44 25 9 10 14 22 14 38 0 22-8 39-25 53-16 13-38 20-66 20-25 0-49-6-70-17" fill="none" stroke="#0f6b78" stroke-width="12" stroke-linecap="round" />
+  <circle cx="251" cy="69" r="16" fill="#a78452" opacity=".9" />
+  <circle cx="271" cy="240" r="10" fill="#8fa29c" opacity=".8" />
+</svg>

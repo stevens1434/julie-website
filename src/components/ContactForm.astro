@@ -1,0 +1,114 @@
+---
+import { contactReasons } from "../data/site";
+
+interface Props {
+  endpoint: string;
+}
+
+const { endpoint } = Astro.props;
+---
+
+{
+  endpoint ? (
+    <>
+      <form class="section-card contact-form" data-async-form action={endpoint} method="POST">
+        <input type="hidden" name="_subject" value="Employer inquiry from Julie Stevens' portfolio" />
+        <input type="text" name="_gotcha" class="visually-hidden" tabindex="-1" autocomplete="off" />
+
+        <div class="form-grid">
+          <label class="field">
+            <span>Name</span>
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+
+          <label class="field">
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+
+          <label class="field">
+            <span>Organization</span>
+            <input name="organization" type="text" autocomplete="organization" />
+          </label>
+
+          <label class="field">
+            <span>Role</span>
+            <input name="role" type="text" autocomplete="organization-title" />
+          </label>
+
+          <label class="field field--full">
+            <span>Reason for reaching out</span>
+            <select name="reason" required>
+              <option value="">Select one</option>
+              {contactReasons.map((reason) => (
+                <option value={reason}>{reason}</option>
+              ))}
+            </select>
+          </label>
+
+          <label class="field field--full">
+            <span>Message</span>
+            <textarea name="message" rows="6" required></textarea>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button class="button" type="submit">Send Inquiry</button>
+          <p class="small-note">Julie will receive an email notification when this form is submitted.</p>
+        </div>
+
+        <p class="form-status" data-form-status aria-live="polite"></p>
+      </form>
+
+      <script is:inline>
+        document.querySelectorAll("form[data-async-form]").forEach((form) => {
+          if (form.dataset.bound === "true") return;
+          form.dataset.bound = "true";
+
+          const status = form.querySelector("[data-form-status]");
+          const button = form.querySelector("button[type='submit']");
+
+          form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const endpoint = form.getAttribute("action");
+            if (!endpoint || !button || !status) return;
+
+            button.setAttribute("disabled", "true");
+            status.textContent = "Sending inquiry...";
+
+            try {
+              const response = await fetch(endpoint, {
+                method: "POST",
+                body: new FormData(form),
+                headers: {
+                  Accept: "application/json"
+                }
+              });
+
+              if (response.ok) {
+                form.reset();
+                status.textContent = "Inquiry sent. Julie will receive an email notification shortly.";
+              } else {
+                status.textContent = "The inquiry could not be sent. Please try again or use the direct email link.";
+              }
+            } catch (error) {
+              status.textContent = "A network error occurred. Please try again or use the direct email link.";
+            } finally {
+              button.removeAttribute("disabled");
+            }
+          });
+        });
+      </script>
+    </>
+  ) : (
+    <div class="section-card muted-card">
+      <p class="card-label">Employer Inquiry Form</p>
+      <h3>Form endpoint pending activation</h3>
+      <p>
+        A direct employer inquiry form can be activated as soon as Julie finalizes her preferred submission workflow. Until then,
+        please use the email or LinkedIn options on this page.
+      </p>
+    </div>
+  )
+}

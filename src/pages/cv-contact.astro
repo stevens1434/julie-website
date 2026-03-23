@@ -1,0 +1,149 @@
+---
+import ContactForm from "../components/ContactForm.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  certifications,
+  contactConfig,
+  cvContactOverview,
+  education,
+  professionalExperience,
+  summaryHighlights,
+  withBase
+} from "../data/site";
+
+const cvPdfHref = contactConfig.cvPdfPath ? withBase(contactConfig.cvPdfPath) : "";
+---
+
+<BaseLayout
+  title="CV & Contact | Julie Stevens"
+  description="Review Julie Stevens' qualifications, education, professional experience, and employer contact options."
+  pathname="/cv-contact"
+>
+  <section class="page-hero page-hero--compact">
+    <div class="hero-copy">
+      <p class="eyebrow">CV & Contact</p>
+      <h1 class="page-title">{cvContactOverview.title}</h1>
+      <p class="page-lede">{cvContactOverview.text}</p>
+
+      <div class="button-row">
+        <button class="button" type="button" onclick="window.print()">Print-Friendly CV</button>
+        {cvPdfHref ? <a class="button button--secondary" href={cvPdfHref}>Download PDF CV</a> : null}
+      </div>
+
+      {!cvPdfHref && <p class="small-note">A downloadable PDF version can be added once the latest CV file is finalized.</p>}
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="eyebrow">Summary of Qualifications</p>
+      <h2>Core strengths employers can expect</h2>
+    </div>
+
+    <div class="section-card">
+      <ul class="plain-list">
+        {summaryHighlights.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="content-section two-column-section">
+    <div class="section-card">
+      <p class="card-label">Education</p>
+      <div class="credential-list">
+        {education.map((item) => (
+          <article class="credential-item">
+            <h3>{item.degree}</h3>
+            <p>{item.school}</p>
+            <p>{item.location}</p>
+            <p class="small-note">{item.dates}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="section-card">
+      <p class="card-label">Credentials & Certifications</p>
+      <div class="credential-list">
+        {certifications.map((item) => (
+          <article class="credential-item">
+            <h3>{item.name}</h3>
+            <p>{item.issuer}</p>
+            <p class="small-note">{item.dates}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading">
+      <p class="eyebrow">Professional Experience</p>
+      <h2>Selected nursing roles</h2>
+    </div>
+
+    <div class="experience-list">
+      {professionalExperience.map((role) => (
+        <article class="section-card experience-entry">
+          <div class="experience-header">
+            <div>
+              <h3>{role.title}</h3>
+              <p>{role.organization}</p>
+            </div>
+            <div class="experience-meta">
+              <p>{role.location}</p>
+              <p>{role.dates}</p>
+            </div>
+          </div>
+
+          <ul class="plain-list">
+            {role.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-section contact-section">
+    <div class="section-heading">
+      <p class="eyebrow">Contact</p>
+      <h2>Employer outreach and scheduling</h2>
+    </div>
+
+    <div class="contact-grid">
+      <article class="section-card contact-card">
+        <p class="card-label">Email</p>
+        <h3>Direct professional contact</h3>
+        <a class="text-link" href={`mailto:${contactConfig.publicEmail}`}>{contactConfig.publicEmail}</a>
+      </article>
+
+      <article class="section-card contact-card">
+        <p class="card-label">LinkedIn</p>
+        <h3>Professional profile</h3>
+        <a class="text-link" href={contactConfig.linkedinUrl} target="_blank" rel="noreferrer">Open LinkedIn profile</a>
+      </article>
+
+      <article class="section-card contact-card">
+        <p class="card-label">Interview Scheduling</p>
+        <h3>Book time directly</h3>
+        {contactConfig.bookingUrl ? (
+          <a class="button button--secondary" href={contactConfig.bookingUrl} target="_blank" rel="noreferrer">Schedule an interview</a>
+        ) : (
+          <p class="small-note">Direct interview scheduling can be activated soon. For now, please reach out by email or LinkedIn.</p>
+        )}
+      </article>
+    </div>
+
+    <ContactForm endpoint={contactConfig.formEndpoint} />
+
+    <div class="section-card muted-card">
+      <p class="card-label">References</p>
+      <h3>Professional and personal references</h3>
+      <p>References are available upon request.</p>
+    </div>
+  </section>
+</BaseLayout>

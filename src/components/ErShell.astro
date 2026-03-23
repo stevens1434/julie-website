@@ -1,0 +1,397 @@
+---
+import ContactForm from "./ContactForm.astro";
+import {
+  careArc,
+  certifications,
+  contactConfig,
+  leadershipPillars,
+  navLinks,
+  professionalExperience,
+  rotations,
+  scholarlyProject,
+  siteMeta,
+  summaryHighlights,
+  withBase
+} from "../data/site";
+import "../styles/theme-er-immersive.css";
+
+interface Props {
+  pathname?: string;
+}
+
+const { pathname = "/" } = Astro.props;
+const page =
+  pathname === "/"
+    ? "home"
+    : pathname === "/clinical-experience"
+      ? "clinical"
+      : pathname === "/leadership-scholarship"
+        ? "leadership"
+        : "contact";
+
+const isCurrentRoute = (href: string) => href === pathname;
+const recentRoles = professionalExperience.slice(0, 4);
+---
+
+<div class="er-shell" data-er-page={page}>
+  <header class="er-shell__appbar">
+    <div class="er-shell__product">
+      <strong>CareChart EMR</strong>
+      <span>Ambulatory candidate chart</span>
+    </div>
+    <div class="er-shell__session">
+      <span>Logged in: Hiring Team Review</span>
+      <span>Workspace: Candidate Summary Chart</span>
+    </div>
+  </header>
+
+  <section class="er-shell__banner">
+    <div class="er-shell__identity">
+      <p class="er-shell__banner-label">Patient Header</p>
+      <h1>{siteMeta.name}</h1>
+      <div class="er-chip-row">
+        <span>DNP-FNP Candidate</span>
+        <span>{siteMeta.credentials}</span>
+        <span>MRN 2027-FNP-016</span>
+        <span>Michigan</span>
+      </div>
+    </div>
+
+    <dl class="er-shell__facts">
+      <div>
+        <dt>Primary Program</dt>
+        <dd>{siteMeta.institution}</dd>
+      </div>
+      <div>
+        <dt>Current Role</dt>
+        <dd>{siteMeta.role}</dd>
+      </div>
+      <div>
+        <dt>Clinical Status</dt>
+        <dd>Employer review ready</dd>
+      </div>
+      <div>
+        <dt>Practice Lens</dt>
+        <dd>Family-centered, prevention-focused, equity-driven</dd>
+      </div>
+    </dl>
+  </section>
+
+  <nav class="er-shell__tabs" aria-label="ER navigation">
+    {navLinks.map((item) => (
+      <a href={withBase(item.href)} class:list={{ "is-active": isCurrentRoute(item.href) }}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+
+  <div class="er-shell__workspace">
+    <aside class="er-shell__rail">
+      <section class="er-module">
+        <div class="er-module__header">
+          <strong>Demographics</strong>
+          <span>Verified</span>
+        </div>
+        <dl class="er-data-list">
+          <div>
+            <dt>Location</dt>
+            <dd>{siteMeta.location}</dd>
+          </div>
+          <div>
+            <dt>Graduation</dt>
+            <dd>2027 target</dd>
+          </div>
+          <div>
+            <dt>Specialty Depth</dt>
+            <dd>Pediatric nephrology, ICU, dialysis, outpatient primary care</dd>
+          </div>
+          <div>
+            <dt>Clinical Systems</dt>
+            <dd>Epic, Cerner, Microsoft Office, Teams</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="er-module">
+        <div class="er-module__header">
+          <strong>Alerts</strong>
+          <span>Active</span>
+        </div>
+        <ul class="er-bullet-list">
+          <li>16+ years bedside nursing experience</li>
+          <li>Pediatric and adult high-acuity background</li>
+          <li>References available upon request</li>
+        </ul>
+      </section>
+
+      <section class="er-module">
+        <div class="er-module__header">
+          <strong>Credentials</strong>
+          <span>Current</span>
+        </div>
+        <ul class="er-chip-list">
+          {certifications.slice(0, 5).map((item) => (
+            <li>{item.name}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="er-module">
+        <div class="er-module__header">
+          <strong>Quick Actions</strong>
+          <span>External</span>
+        </div>
+        <div class="er-action-list">
+          <a href={`mailto:${contactConfig.publicEmail}`}>Email Julie</a>
+          <a href={contactConfig.linkedinUrl} target="_blank" rel="noreferrer">Open LinkedIn</a>
+          {contactConfig.bookingUrl ? (
+            <a href={contactConfig.bookingUrl} target="_blank" rel="noreferrer">Schedule Interview</a>
+          ) : null}
+        </div>
+      </section>
+    </aside>
+
+    <main class="er-shell__main">
+      {page === "home" ? (
+        <div class="er-grid er-grid--home">
+          <section class="er-module er-module--hero">
+            <div class="er-module__header">
+              <strong>Chart Summary</strong>
+              <span>Overview</span>
+            </div>
+            <div class="er-hero">
+              <div>
+                <h2>Candidate dashboard</h2>
+                <p>
+                  Julie Stevens is a DNP-FNP student transitioning from high-acuity bedside nursing into family nurse practitioner
+                  practice with a strong emphasis on prevention, education, and equitable primary care access.
+                </p>
+              </div>
+              <div class="er-metric-strip">
+                <article><strong>16+</strong><span>Years nursing</span></article>
+                <article><strong>8</strong><span>Rotations</span></article>
+                <article><strong>2027</strong><span>Target graduation</span></article>
+              </div>
+            </div>
+          </section>
+
+          <section class="er-module">
+            <div class="er-module__header">
+              <strong>Problem List</strong>
+              <span>Active</span>
+            </div>
+            <ul class="er-bullet-list">
+              <li>Primary care transition supported by critical-care judgment.</li>
+              <li>Rural and underserved access lens integrated into training and scholarship.</li>
+              <li>Employer-ready portfolio with direct outreach pathways and references on request.</li>
+            </ul>
+          </section>
+
+          <section class="er-module">
+            <div class="er-module__header">
+              <strong>Selected Timeline</strong>
+              <span>Recent roles</span>
+            </div>
+            <table class="er-table">
+              <thead>
+                <tr><th>Role</th><th>Site</th><th>Dates</th></tr>
+              </thead>
+              <tbody>
+                {recentRoles.map((role) => (
+                  <tr>
+                    <td>{role.title}</td>
+                    <td>{role.organization}</td>
+                    <td>{role.dates}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section class="er-module er-module--wide">
+            <div class="er-module__header">
+              <strong>Care Team Notes</strong>
+              <span>Highlights</span>
+            </div>
+            <ul class="er-note-list">
+              {summaryHighlights.slice(0, 4).map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </section>
+        </div>
+      ) : null}
+
+      {page === "clinical" ? (
+        <div class="er-grid er-grid--clinical">
+          <section class="er-module er-module--wide">
+            <div class="er-module__header">
+              <strong>Encounter Timeline</strong>
+              <span>Rotations</span>
+            </div>
+            <table class="er-table">
+              <thead>
+                <tr><th>Focus</th><th>Preceptor</th><th>Location</th><th>Dates</th></tr>
+              </thead>
+              <tbody>
+                {rotations.map((rotation) => (
+                  <tr>
+                    <td>{rotation.focus}</td>
+                    <td>{rotation.preceptor}</td>
+                    <td>{rotation.location}</td>
+                    <td>{rotation.dates}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section class="er-module">
+            <div class="er-module__header">
+              <strong>Flowsheet</strong>
+              <span>Career arc</span>
+            </div>
+            <table class="er-table er-table--compact">
+              <tbody>
+                {careArc.map((item) => (
+                  <tr>
+                    <th>{item.title}</th>
+                    <td>{item.text}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section class="er-module">
+            <div class="er-module__header">
+              <strong>Credential Ledger</strong>
+              <span>Verified</span>
+            </div>
+            <table class="er-table er-table--compact">
+              <thead>
+                <tr><th>Credential</th><th>Issuer</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                {certifications.map((item) => (
+                  <tr>
+                    <td>{item.name}</td>
+                    <td>{item.issuer}</td>
+                    <td>{item.dates}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        </div>
+      ) : null}
+
+      {page === "leadership" ? (
+        <div class="er-grid er-grid--leadership">
+          <section class="er-module er-module--wide">
+            <div class="er-module__header">
+              <strong>Provider Note</strong>
+              <span>Assessment / Plan</span>
+            </div>
+            <article class="er-note">
+              <h2>Leadership and scholarship review</h2>
+              <p>
+                Leadership approach remains grounded in integrity, cultural humility, respect, and accountable service. Current
+                academic work prioritizes measurable improvement in preventive care access for underserved populations.
+              </p>
+              <div class="er-note__blocks">
+                {leadershipPillars.map((item) => (
+                  <section>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </section>
+                ))}
+              </div>
+            </article>
+          </section>
+
+          <section class="er-module">
+            <div class="er-module__header">
+              <strong>Results Review</strong>
+              <span>DNP Project</span>
+            </div>
+            <dl class="er-data-list">
+              <div>
+                <dt>Project</dt>
+                <dd>{scholarlyProject.title}</dd>
+              </div>
+              <div>
+                <dt>Setting</dt>
+                <dd>{scholarlyProject.setting}</dd>
+              </div>
+              <div>
+                <dt>Timeline</dt>
+                <dd>{scholarlyProject.timeline}</dd>
+              </div>
+              <div>
+                <dt>Completion</dt>
+                <dd>{scholarlyProject.completion}</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="er-module">
+            <div class="er-module__header">
+              <strong>Care Plan</strong>
+              <span>Next steps</span>
+            </div>
+            <ul class="er-bullet-list">
+              <li>Advance diabetic eye-screening access work in the rural FQHC setting.</li>
+              <li>Translate bedside critical-care judgment into longitudinal family-practice care plans.</li>
+              <li>Continue building community-facing leadership and quality-improvement experience.</li>
+            </ul>
+          </section>
+        </div>
+      ) : null}
+
+      {page === "contact" ? (
+        <div class="er-grid er-grid--contact">
+          <section class="er-module">
+            <div class="er-module__header">
+              <strong>Document Registry</strong>
+              <span>Chart media</span>
+            </div>
+            <table class="er-table er-table--compact">
+              <thead>
+                <tr><th>Document</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Curriculum vitae</td><td>{contactConfig.cvPdfPath ? "Available" : "Pending final PDF"}</td></tr>
+                <tr><td>References</td><td>Available upon request</td></tr>
+                <tr><td>LinkedIn profile</td><td>Active</td></tr>
+                <tr><td>Interview scheduling</td><td>{contactConfig.bookingUrl ? "Active" : "Pending link"}</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="er-module">
+            <div class="er-module__header">
+              <strong>Referral Routing</strong>
+              <span>External pathways</span>
+            </div>
+            <div class="er-action-list">
+              <a href={`mailto:${contactConfig.publicEmail}`}>Email Julie</a>
+              <a href={contactConfig.linkedinUrl} target="_blank" rel="noreferrer">Open LinkedIn</a>
+              {contactConfig.bookingUrl ? (
+                <a href={contactConfig.bookingUrl} target="_blank" rel="noreferrer">Schedule Interview</a>
+              ) : null}
+            </div>
+          </section>
+
+          <section class="er-module er-module--wide">
+            <div class="er-module__header">
+              <strong>Secure Messaging</strong>
+              <span>Compose</span>
+            </div>
+            <ContactForm endpoint={contactConfig.formEndpoint} />
+          </section>
+        </div>
+      ) : null}
+    </main>
+  </div>
+</div>

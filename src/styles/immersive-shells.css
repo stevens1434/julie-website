@@ -1,0 +1,69 @@
+.site-core[data-immersive-hidden="true"] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.site-core[data-immersive-hidden="true"] * {
+  pointer-events: none !important;
+}
+
+body[data-immersive-active="true"] {
+  overflow: hidden;
+}
+
+.immersive-theme-hub {
+  position: fixed;
+  inset: 0;
+  z-index: 24;
+  pointer-events: none;
+}
+
+.immersive-theme-hub[hidden] {
+  display: none;
+}
+
+.immersive-shell {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+.immersive-shell[hidden] {
+  display: none;
+}
+
+.immersive-shell img {
+  display: block;
+  max-width: 100%;
+}
+
+.immersive-shell .contact-form {
+  margin: 0;
+}
+
+.immersive-shell .form-grid,
+.immersive-shell .field,
+.immersive-shell .form-actions {
+  position: relative;
+  z-index: 1;
+}
+
+.immersive-shell .field span {
+  display: block;
+}
+
+.immersive-shell .form-status {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .immersive-theme-hub {
+    z-index: 26;
+  }
+}
+
+@media print {
+  .immersive-theme-hub {
+    display: none !important;
+  }
+}

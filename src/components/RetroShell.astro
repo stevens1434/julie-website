@@ -1,0 +1,767 @@
+---
+import ContactForm from "./ContactForm.astro";
+import {
+  bestFitOpportunities,
+  careArc,
+  certifications,
+  clinicalOverview,
+  clinicalSettings,
+  contactConfig,
+  cvContactOverview,
+  education,
+  leadershipOverview,
+  leadershipPillars,
+  leadershipSummary,
+  professionalExperience,
+  rotations,
+  scholarlyProject,
+  serviceOrientationText,
+  siteMeta,
+  summaryHighlights,
+  withBase
+} from "../data/site";
+import "../styles/theme-retro-immersive.css";
+
+interface Props {
+  pathname?: string;
+}
+
+const { pathname = "/" } = Astro.props;
+const page =
+  pathname === "/"
+    ? "home"
+    : pathname === "/clinical-experience"
+      ? "clinical"
+      : pathname === "/leadership-scholarship"
+        ? "leadership"
+        : "contact";
+
+const wallpaperSrc = "https://res.cloudinary.com/stevens1434/image/upload/v1774293978/Other/Bliss__28Windows_XP_29.png";
+const clippyUrl = "https://res.cloudinary.com/stevens1434/image/upload/v1774287425/Other/clippy.png";
+const isCurrentRoute = (href: string) => href === pathname;
+const cvPdfHref = contactConfig.cvPdfPath ? withBase(contactConfig.cvPdfPath) : "";
+
+const desktopApps = [
+  {
+    href: "/",
+    label: "My Computer",
+    taskLabel: "Desktop",
+    icon: "computer",
+    iconPath: withBase("/retro/icons/my-computer.svg"),
+    title: "Julie Stevens Portfolio Properties"
+  },
+  {
+    href: "/clinical-experience",
+    label: "Internet Explorer",
+    taskLabel: "Clinical",
+    icon: "browser",
+    iconPath: withBase("/retro/icons/internet-explorer.svg"),
+    title: "Clinical Experience - Microsoft Internet Explorer"
+  },
+  {
+    href: "/leadership-scholarship",
+    label: "Outlook Express",
+    taskLabel: "Leadership",
+    icon: "mail",
+    iconPath: withBase("/retro/icons/outlook-express.svg"),
+    title: "Leadership & Scholarship - Outlook Express"
+  },
+  {
+    href: "/cv-contact",
+    label: "Napster",
+    taskLabel: "CV & Contact",
+    icon: "music",
+    iconPath: withBase("/retro/icons/napster.svg"),
+    title: "Napster - CV & Contact"
+  }
+];
+
+const activeApp = desktopApps.find((app) => isCurrentRoute(app.href)) ?? desktopApps[0];
+
+const clinicalViews = [
+  { id: "overview", label: "Clinical Experience" },
+  { id: "placements", label: "Clinical Placements" },
+  { id: "settings", label: "Practice Settings" },
+  { id: "career", label: "Career Experiences" },
+  { id: "credentials", label: "Current Credentials" },
+  { id: "roles", label: "Roles Aligned with Julie's Experience and Trajectory" }
+];
+
+const leadershipViews = [
+  { id: "overview", label: "Leadership & Scholarship" },
+  { id: "summary", label: "Leadership Summary" },
+  { id: "pillars", label: "Leadership Pillars" },
+  { id: "scholarly", label: "Scholarly Work" },
+  { id: "question", label: "Quality Improvement Question" },
+  { id: "service", label: "Service Orientation" }
+];
+
+const cvViews = [
+  { id: "overview", label: "CV & Contact" },
+  { id: "summary", label: "Summary of Qualifications" },
+  { id: "education", label: "Education" },
+  { id: "credentials", label: "Credentials & Certifications" },
+  { id: "experience", label: "Professional Experience" },
+  { id: "contact", label: "Contact" }
+];
+---
+
+<div class="retro-shell" data-retro-page={page} style={`--retro-wallpaper: url(${wallpaperSrc});`}>
+  <div class="retro-shell__desktop">
+    <div class="retro-shell__wallpaper" aria-hidden="true"></div>
+
+    <nav class="retro-shell__shortcuts" aria-label="Retro desktop shortcuts">
+      {desktopApps.map((app) => (
+        <a
+          href={withBase(app.href)}
+          class:list={{ "is-active": isCurrentRoute(app.href) }}
+          aria-current={isCurrentRoute(app.href) ? "page" : undefined}
+        >
+          <span class="retro-shell__shortcut-frame">
+            <img class="retro-shell__shortcut-logo" src={app.iconPath} alt="" loading="lazy" />
+          </span>
+          <span>{app.label}</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="retro-shell__workspace">
+      {page === "home" ? (
+        <section class="xp-window xp-window--home">
+          <header class="xp-window__titlebar">
+            <div class="xp-window__title">
+              <img class="xp-window__title-logo" src={activeApp.iconPath} alt="" loading="lazy" />
+              <span>{activeApp.title}</span>
+            </div>
+            <div class="xp-window__controls" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </header>
+
+          <div class="xp-window__chrome">
+            <div class="xp-window__body xp-home">
+              <section class="xp-home__hero">
+                <p class="xp-home__eyebrow">Windows XP Professional</p>
+                <h1>{siteMeta.name}, {siteMeta.credentials}</h1>
+                <p class="xp-home__lede">
+                  Employer-ready DNP-FNP portfolio with more than 16 years of bedside experience spanning pediatric specialty
+                  practice, high-acuity care, and a transition into family nurse practitioner work.
+                </p>
+                <div class="xp-home__links">
+                  {desktopApps.slice(1).map((app) => (
+                    <a href={withBase(app.href)}>{app.label}</a>
+                  ))}
+                </div>
+              </section>
+
+              <section class="xp-home__card">
+                <h2>System Summary</h2>
+                <dl>
+                  <div>
+                    <dt>Candidate</dt>
+                    <dd>{siteMeta.name}, {siteMeta.credentials}</dd>
+                  </div>
+                  <div>
+                    <dt>Current Program</dt>
+                    <dd>{siteMeta.role} | {siteMeta.institution}</dd>
+                  </div>
+                  <div>
+                    <dt>Practice Lens</dt>
+                    <dd>Prevention, education, underserved access, and family-centered care.</dd>
+                  </div>
+                  <div>
+                    <dt>Known For</dt>
+                    <dd>Critical-care calm, pediatric depth, and employer-ready professionalism.</dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section class="xp-home__card xp-home__card--notes">
+                <h2>Desktop Notes</h2>
+                <ul>
+                  {summaryHighlights.slice(0, 4).map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {page === "clinical" ? (
+        <section class="xp-window xp-window--ie" data-retro-window data-default-view="placements">
+          <header class="xp-window__titlebar">
+            <div class="xp-window__title">
+              <img class="xp-window__title-logo" src={activeApp.iconPath} alt="" loading="lazy" />
+              <span>{activeApp.title}</span>
+            </div>
+            <div class="xp-window__controls" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </header>
+
+          <div class="xp-window__chrome">
+            <div class="xp-window__menubar">
+              <span>File</span>
+              <span>Edit</span>
+              <span>View</span>
+              <span>Favorites</span>
+              <span>Tools</span>
+              <span>Help</span>
+            </div>
+
+            <div class="xp-window__toolbar xp-window__toolbar--ie">
+              <div class="xp-window__toolbar-icons" aria-hidden="true">
+                <span data-tool="back"></span>
+                <span data-tool="forward"></span>
+                <span data-tool="refresh"></span>
+                <span data-tool="home"></span>
+                <span data-tool="search"></span>
+                <span data-tool="favorites"></span>
+              </div>
+              <label class="xp-window__address">
+                <span>Address</span>
+                <input type="text" value="http://www.microsoft.com/windows/ie/default.asp" readonly />
+              </label>
+            </div>
+
+            <div class="xp-ie">
+              <nav class="xp-ie__navlist" aria-label="Clinical sections">
+                {clinicalViews.map((view) => (
+                  <button type="button" data-retro-view-trigger data-retro-view={view.id}>
+                    {view.label}
+                  </button>
+                ))}
+              </nav>
+
+              <div class="xp-ie__main">
+                <section class="xp-ie__masthead">
+                  <div class="xp-ie__herobar">
+                    <strong>Internet Explorer</strong>
+                    <span>Microsoft</span>
+                  </div>
+
+                  <div class="xp-ie__promo">
+                    <div class="xp-ie__promo-badge">6</div>
+                    <div class="xp-ie__promo-copy">
+                      <p class="xp-ie__promo-kicker">Download</p>
+                      <h1>Clinical Experience 6 Now!</h1>
+                      <p>
+                        Review Julie’s outpatient, pediatric, FQHC, specialty, and family-medicine training in a layout inspired by
+                        the early-2000s Internet Explorer home page.
+                      </p>
+                      <div class="xp-ie__promo-links">
+                        <a href={withBase("/cv-contact")}>Download CV</a>
+                        <a href={withBase("/leadership-scholarship")}>Open Outlook notes</a>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <div class="xp-panel-scroll xp-panel-scroll--ie">
+                  <section class="xp-panel" data-retro-view-panel="overview">
+                    <p class="xp-panel__label">Clinical Experience</p>
+                    <h2>{clinicalOverview.title}</h2>
+                    <p>{clinicalOverview.text}</p>
+                  </section>
+
+                  <section class="xp-panel xp-panel--placements" data-retro-view-panel="placements" hidden>
+                    <p class="xp-panel__label">Documented clinical placements</p>
+                    <div class="xp-ie__stories">
+                      {rotations.map((rotation) => (
+                        <article class="xp-ie__story">
+                          <div class="xp-ie__story-icon" aria-hidden="true"></div>
+                          <div>
+                            <h2>{rotation.focus}</h2>
+                            <p>
+                              {rotation.preceptor} | {rotation.location}
+                            </p>
+                            <a href={withBase("/clinical-experience")}>{rotation.dates}</a>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="settings" hidden>
+                    <p class="xp-panel__label">Practice Settings</p>
+                    <ul class="xp-chip-grid">
+                      {clinicalSettings.map((setting) => (
+                        <li>{setting}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="career" hidden>
+                    <p class="xp-panel__label">Career Experiences</p>
+                    <div class="xp-stack">
+                      {careArc.map((item) => (
+                        <article class="xp-card">
+                          <h3>{item.title}</h3>
+                          <p>{item.text}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="credentials" hidden>
+                    <p class="xp-panel__label">Current Credentials</p>
+                    <div class="xp-stack">
+                      {certifications.map((item) => (
+                        <article class="xp-card xp-card--compact">
+                          <h3>{item.name}</h3>
+                          <p>{item.issuer}</p>
+                          <p class="xp-muted">{item.dates}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="roles" hidden>
+                    <p class="xp-panel__label">Roles aligned with Julie's experience and trajectory</p>
+                    <ul class="xp-bullet-list">
+                      {bestFitOpportunities.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                    <a class="xp-inline-button" href={withBase("/cv-contact")}>Review full CV and contact details</a>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {page === "leadership" ? (
+        <section class="xp-window xp-window--outlook" data-retro-window data-default-view="overview">
+          <header class="xp-window__titlebar">
+            <div class="xp-window__title">
+              <img class="xp-window__title-logo" src={activeApp.iconPath} alt="" loading="lazy" />
+              <span>{activeApp.title}</span>
+            </div>
+            <div class="xp-window__controls" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </header>
+
+          <div class="xp-window__chrome">
+            <div class="xp-window__menubar">
+              <span>File</span>
+              <span>Edit</span>
+              <span>View</span>
+              <span>Go</span>
+              <span>Tools</span>
+              <span>Message</span>
+              <span>Help</span>
+            </div>
+
+            <div class="xp-window__toolbar xp-window__toolbar--outlook">
+              <button type="button">Reply</button>
+              <button type="button">Reply All</button>
+              <button type="button">Forward</button>
+              <button type="button">Send/Recv</button>
+              <button type="button">Address Book</button>
+            </div>
+
+            <div class="xp-outlook">
+              <aside class="xp-outlook__folders">
+                <h2>Folders</h2>
+                <ul>
+                  {leadershipViews.map((view) => (
+                    <li>
+                      <button type="button" data-retro-view-trigger data-retro-view={view.id}>
+                        {view.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+
+              <section class="xp-outlook__list">
+                <div class="xp-outlook__list-head">
+                  <span>From</span>
+                  <span>Subject</span>
+                  <span>Date</span>
+                </div>
+                <div class="xp-outlook__list-body">
+                  {leadershipViews.map((view, index) => (
+                    <button class="xp-outlook__row" type="button" data-retro-view-trigger data-retro-view={view.id}>
+                      <span>Leadership File</span>
+                      <span>{view.label}</span>
+                      <span>{index === 0 ? "Today" : `${index}d`}</span>
+                    </button>
+                  ))}
+                </div>
+              </section>
+
+              <article class="xp-outlook__preview">
+                <header>
+                  <p><strong>Mailbox:</strong> Leadership & Scholarship</p>
+                  <p><strong>Status:</strong> Outlook Express preview</p>
+                </header>
+                <div class="xp-panel-scroll xp-panel-scroll--outlook">
+                  <section class="xp-panel" data-retro-view-panel="overview">
+                    <p class="xp-panel__label">Leadership & Scholarship</p>
+                    <h2>{leadershipOverview.title}</h2>
+                    <p>{leadershipOverview.text}</p>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="summary" hidden>
+                    <p class="xp-panel__label">Leadership Summary</p>
+                    {leadershipSummary.map((paragraph) => (
+                      <p>{paragraph}</p>
+                    ))}
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="pillars" hidden>
+                    <p class="xp-panel__label">Leadership Pillars</p>
+                    <div class="xp-stack">
+                      {leadershipPillars.map((item) => (
+                        <article class="xp-card">
+                          <h3>{item.title}</h3>
+                          <p>{item.text}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="scholarly" hidden>
+                    <p class="xp-panel__label">Scholarly Work</p>
+                    <h2>{scholarlyProject.title}</h2>
+                    <p>{scholarlyProject.introduction}</p>
+                    <p>{scholarlyProject.whyItMatters}</p>
+                    <dl class="xp-definition-grid">
+                      <div><dt>Setting</dt><dd>{scholarlyProject.setting}</dd></div>
+                      <div><dt>Timeline</dt><dd>{scholarlyProject.timeline}</dd></div>
+                      <div><dt>Completion</dt><dd>{scholarlyProject.completion}</dd></div>
+                    </dl>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="question" hidden>
+                    <p class="xp-panel__label">Quality Improvement Question</p>
+                    <blockquote class="xp-quote">{scholarlyProject.question}</blockquote>
+                    <p>{scholarlyProject.aim}</p>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="service" hidden>
+                    <p class="xp-panel__label">Service Orientation</p>
+                    <p>{serviceOrientationText}</p>
+                  </section>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {page === "contact" ? (
+        <section class="xp-window xp-window--napster" data-retro-window data-default-view="overview">
+          <header class="xp-window__titlebar">
+            <div class="xp-window__title">
+              <img class="xp-window__title-logo" src={activeApp.iconPath} alt="" loading="lazy" />
+              <span>{activeApp.title}</span>
+            </div>
+            <div class="xp-window__controls" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </header>
+
+          <div class="xp-window__chrome">
+            <div class="xp-window__toolbar xp-window__toolbar--napster">
+              <button type="button">Search</button>
+              <button type="button">Transfers</button>
+              <button type="button">Hotlist</button>
+              <button type="button">Chat</button>
+            </div>
+
+            <div class="xp-napster">
+              <aside class="xp-napster__sidebar">
+                <div class="xp-napster__logo-mark">
+                  <img src={activeApp.iconPath} alt="" loading="lazy" />
+                </div>
+                <ul>
+                  {cvViews.map((view) => (
+                    <li>
+                      <button type="button" data-retro-view-trigger data-retro-view={view.id}>
+                        {view.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+
+              <section class="xp-napster__library">
+                <header>
+                  <h1>What’s in your download queue?</h1>
+                  <p>Fun styling first, but the actual employer contact options still live here.</p>
+                </header>
+
+                <div class="xp-panel-scroll xp-panel-scroll--napster">
+                  <section class="xp-panel" data-retro-view-panel="overview">
+                    <p class="xp-panel__label">CV & Contact</p>
+                    <h2>{cvContactOverview.title}</h2>
+                    <p>{cvContactOverview.text}</p>
+                    <div class="xp-napster__actions">
+                      <button class="xp-inline-button" type="button" onclick="window.print()">Print-Friendly CV</button>
+                      {cvPdfHref ? <a class="xp-inline-button" href={cvPdfHref}>Download PDF CV</a> : null}
+                    </div>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="summary" hidden>
+                    <p class="xp-panel__label">Summary of Qualifications</p>
+                    <ul class="xp-bullet-list">
+                      {summaryHighlights.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="education" hidden>
+                    <p class="xp-panel__label">Education</p>
+                    <div class="xp-stack">
+                      {education.map((item) => (
+                        <article class="xp-card">
+                          <h3>{item.degree}</h3>
+                          <p>{item.school}</p>
+                          <p>{item.location}</p>
+                          <p class="xp-muted">{item.dates}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="credentials" hidden>
+                    <p class="xp-panel__label">Credentials & Certifications</p>
+                    <div class="xp-stack">
+                      {certifications.map((item) => (
+                        <article class="xp-card xp-card--compact">
+                          <h3>{item.name}</h3>
+                          <p>{item.issuer}</p>
+                          <p class="xp-muted">{item.dates}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="experience" hidden>
+                    <p class="xp-panel__label">Professional Experience</p>
+                    <div class="xp-stack">
+                      {professionalExperience.map((role) => (
+                        <article class="xp-card">
+                          <h3>{role.title}</h3>
+                          <p>{role.organization}</p>
+                          <p class="xp-muted">{role.location} | {role.dates}</p>
+                          <ul class="xp-bullet-list xp-bullet-list--compact">
+                            {role.bullets.map((bullet) => (
+                              <li>{bullet}</li>
+                            ))}
+                          </ul>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section class="xp-panel" data-retro-view-panel="contact" hidden>
+                    <p class="xp-panel__label">Contact</p>
+                    <div class="xp-stack">
+                      <article class="xp-card xp-card--compact">
+                        <h3>Email</h3>
+                        <a href={`mailto:${contactConfig.publicEmail}`}>{contactConfig.publicEmail}</a>
+                      </article>
+                      <article class="xp-card xp-card--compact">
+                        <h3>LinkedIn</h3>
+                        <a href={contactConfig.linkedinUrl} target="_blank" rel="noreferrer">Open LinkedIn profile</a>
+                      </article>
+                      <article class="xp-card xp-card--compact">
+                        <h3>Interview Scheduling</h3>
+                        {contactConfig.bookingUrl ? (
+                          <a href={contactConfig.bookingUrl} target="_blank" rel="noreferrer">Schedule an interview</a>
+                        ) : (
+                          <p>Direct scheduling link pending activation.</p>
+                        )}
+                      </article>
+                      <article class="xp-card xp-card--compact">
+                        <h3>References</h3>
+                        <p>References are available upon request.</p>
+                      </article>
+                    </div>
+                  </section>
+                </div>
+              </section>
+
+              <section class="xp-napster__queue">
+                <div class="xp-napster__queue-head">
+                  <h2>Message Queue</h2>
+                  <p>Share a direct employer note.</p>
+                </div>
+                <ContactForm endpoint={contactConfig.formEndpoint} />
+              </section>
+            </div>
+          </div>
+        </section>
+      ) : null}
+    </div>
+
+    <div class="retro-start-menu" id="retro-start-menu" hidden data-start-menu>
+      <div class="retro-start-menu__header">
+        <div class="retro-start-menu__avatar" aria-hidden="true"></div>
+        <div>
+          <strong>{siteMeta.name}</strong>
+          <span>Portfolio desktop</span>
+        </div>
+      </div>
+      <nav class="retro-start-menu__apps" aria-label="Start menu applications">
+        {desktopApps.map((app) => (
+          <a
+            href={withBase(app.href)}
+            class:list={{ "is-active": isCurrentRoute(app.href) }}
+            aria-current={isCurrentRoute(app.href) ? "page" : undefined}
+          >
+            <img src={app.iconPath} alt="" loading="lazy" />
+            <span>{app.label}</span>
+          </a>
+        ))}
+      </nav>
+    </div>
+
+    <button class="retro-clippy" type="button" data-retro-theme-launcher aria-label="Change retro theme">
+      <img src={clippyUrl} alt="" loading="lazy" />
+      <span>
+        <strong>Need a new theme?</strong>
+        <small>Click Clippy to change the look.</small>
+      </span>
+    </button>
+  </div>
+
+  <footer class="retro-taskbar">
+    <button
+      class="retro-taskbar__start"
+      type="button"
+      data-start-toggle
+      aria-expanded="false"
+      aria-controls="retro-start-menu"
+      aria-haspopup="menu"
+    >
+      <span class="retro-taskbar__start-orb" aria-hidden="true"></span>
+      start
+    </button>
+
+    <nav class="retro-taskbar__apps" aria-label="Retro taskbar applications">
+      {desktopApps.map((app) => (
+        <a
+          href={withBase(app.href)}
+          class:list={{ "is-active": isCurrentRoute(app.href) }}
+          aria-current={isCurrentRoute(app.href) ? "page" : undefined}
+        >
+          <img class="retro-taskbar__app-logo" src={app.iconPath} alt="" loading="lazy" />
+          <span>{app.taskLabel}</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="retro-taskbar__tray">
+      <span class="retro-taskbar__tray-icons" aria-hidden="true"></span>
+      <span data-retro-clock>4:44 PM</span>
+    </div>
+  </footer>
+</div>
+
+<script is:inline>
+  (() => {
+    const shell = document.querySelector(".retro-shell");
+    if (!shell) return;
+
+    const launchers = shell.querySelectorAll("[data-retro-theme-launcher]");
+    const clockNodes = shell.querySelectorAll("[data-retro-clock]");
+    const startToggle = shell.querySelector("[data-start-toggle]");
+    const startMenu = shell.querySelector("[data-start-menu]");
+
+    const syncClock = () => {
+      const formatter = new Intl.DateTimeFormat([], {
+        hour: "numeric",
+        minute: "2-digit"
+      });
+
+      clockNodes.forEach((node) => {
+        node.textContent = formatter.format(new Date());
+      });
+    };
+
+    const setStartOpen = (isOpen) => {
+      if (!startMenu || !startToggle) return;
+      startMenu.hidden = !isOpen;
+      startToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      shell.dataset.startOpen = isOpen ? "true" : "false";
+    };
+
+    const bindWindow = (windowEl) => {
+      if (windowEl.dataset.bound === "true") return;
+      windowEl.dataset.bound = "true";
+
+      const defaultView = windowEl.getAttribute("data-default-view");
+      const triggers = Array.from(windowEl.querySelectorAll("[data-retro-view-trigger]"));
+      const panels = Array.from(windowEl.querySelectorAll("[data-retro-view-panel]"));
+
+      const setView = (view) => {
+        triggers.forEach((trigger) => {
+          const isActive = trigger.getAttribute("data-retro-view") === view;
+          trigger.dataset.active = isActive ? "true" : "false";
+          trigger.setAttribute("aria-pressed", isActive ? "true" : "false");
+          if (trigger.closest("li")) {
+            trigger.closest("li").dataset.active = isActive ? "true" : "false";
+          }
+        });
+
+        panels.forEach((panel) => {
+          const isActive = panel.getAttribute("data-retro-view-panel") === view;
+          panel.hidden = !isActive;
+          panel.setAttribute("aria-hidden", isActive ? "false" : "true");
+        });
+      };
+
+      triggers.forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          setView(trigger.getAttribute("data-retro-view"));
+        });
+      });
+
+      setView(defaultView || triggers[0]?.getAttribute("data-retro-view"));
+    };
+
+    syncClock();
+    window.setInterval(syncClock, 60000);
+
+    launchers.forEach((launcher) => {
+      if (launcher.dataset.bound === "true") return;
+      launcher.dataset.bound = "true";
+
+      launcher.addEventListener("click", () => {
+        window.dispatchEvent(new CustomEvent("julie-theme-panel-toggle", { detail: { open: true } }));
+      });
+    });
+
+    if (startToggle && startMenu) {
+      startToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        setStartOpen(shell.dataset.startOpen !== "true");
+      });
+
+      document.addEventListener("click", (event) => {
+        if (shell.dataset.startOpen !== "true") return;
+        if (!startMenu.contains(event.target) && !startToggle.contains(event.target)) {
+          setStartOpen(false);
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          setStartOpen(false);
+        }
+      });
+    }
+
+    shell.querySelectorAll("[data-retro-window]").forEach(bindWindow);
+  })();
+</script>

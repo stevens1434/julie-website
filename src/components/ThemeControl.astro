@@ -1,0 +1,204 @@
+---
+const groups = [
+  {
+    key: "colorMode",
+    label: "Color Mode",
+    disabledWhenCreative: true,
+    options: [
+      { value: "light", label: "Light" },
+      { value: "dark", label: "Dark" }
+    ]
+  },
+  {
+    key: "creativeTheme",
+    label: "Creative Theme",
+    options: [
+      { value: "standard", label: "Standard" },
+      { value: "retro", label: "Retro" },
+      { value: "starwars", label: "Star Wars" },
+      { value: "jurassic", label: "Jurassic" },
+      { value: "er", label: "ER" }
+    ]
+  }
+];
+---
+
+<div class="theme-dock" data-theme-dock data-open="false">
+  <button class="theme-trigger" type="button" aria-expanded="false" aria-controls="appearance-panel" data-theme-trigger="default">
+    <span class="theme-trigger-label">Appearance</span>
+    <span class="theme-trigger-value" data-theme-summary>Light</span>
+  </button>
+
+  <section class="theme-panel" id="appearance-panel" hidden data-theme-panel aria-label="Appearance controls">
+    <div class="theme-panel-header">
+      <div>
+        <p class="theme-panel-label">Theme Controls</p>
+        <h2>Adjust the site style</h2>
+      </div>
+      <button class="theme-close" type="button" aria-label="Close appearance controls" data-theme-close>
+        Close
+      </button>
+    </div>
+
+    <div class="theme-groups">
+      {groups.map((group) => (
+        <section
+          class="theme-group"
+          aria-label={group.label}
+          data-theme-group={group.key}
+          data-disabled-when-creative={group.disabledWhenCreative ? "true" : "false"}
+        >
+          <p class="theme-group-label">{group.label}</p>
+          <div class="theme-options" role="group" aria-label={group.label}>
+            {group.options.map((option) => (
+              <button
+                class="theme-option"
+                type="button"
+                data-theme-option
+                data-theme-prop={group.key}
+                data-theme-value={option.value}
+                aria-pressed="false"
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <p class="theme-override-note" hidden data-theme-override-note>
+      Retro, Star Wars, Jurassic, and ER use fixed immersive layouts. Switch Creative Theme back to Standard to re-enable Color Mode.
+    </p>
+  </section>
+</div>
+
+<script is:inline>
+  (() => {
+    const themeStore = window.__JULIE_THEME__;
+    const dock = document.querySelector("[data-theme-dock]");
+
+    if (!themeStore || !dock) return;
+
+    const triggerDefault = dock.querySelector("[data-theme-trigger='default']");
+    const triggers = [triggerDefault].filter(Boolean);
+    const panel = dock.querySelector("[data-theme-panel]");
+    const close = dock.querySelector("[data-theme-close]");
+    const summary = dock.querySelector("[data-theme-summary]");
+    const overrideNote = dock.querySelector("[data-theme-override-note]");
+    const options = Array.from(dock.querySelectorAll("[data-theme-option]"));
+    const groups = Array.from(dock.querySelectorAll("[data-theme-group]"));
+
+    const labels = {
+      colorMode: {
+        light: "Light",
+        dark: "Dark"
+      },
+      creativeTheme: {
+        standard: "Standard",
+        retro: "Retro",
+        starwars: "Star Wars",
+        jurassic: "Jurassic",
+        er: "ER"
+      }
+    };
+
+    const usesFixedLayout = (theme) => theme.creativeTheme && theme.creativeTheme !== "standard";
+
+    const formatSummary = (theme) =>
+      theme.creativeTheme === "standard" ? labels.colorMode[theme.colorMode] : labels.creativeTheme[theme.creativeTheme];
+
+    const sync = (theme) => {
+      const immersive = usesFixedLayout(theme);
+
+      if (summary) summary.textContent = formatSummary(theme);
+      if (triggerDefault) triggerDefault.hidden = theme.creativeTheme === "retro";
+
+      if (overrideNote) {
+        overrideNote.hidden = !immersive;
+      }
+
+      groups.forEach((group) => {
+        const disableForCreative = group.getAttribute("data-disabled-when-creative") === "true";
+        const isDisabled = Boolean(immersive && disableForCreative);
+        group.dataset.disabled = isDisabled ? "true" : "false";
+      });
+
+      options.forEach((option) => {
+        const prop = option.getAttribute("data-theme-prop");
+        const value = option.getAttribute("data-theme-value");
+        const isActive = Boolean(prop && value && theme[prop] === value);
+        const isDisabled = Boolean(immersive && prop === "colorMode");
+
+        option.setAttribute("aria-pressed", isActive ? "true" : "false");
+        option.setAttribute("aria-disabled", isDisabled ? "true" : "false");
+        option.dataset.active = isActive ? "true" : "false";
+        option.disabled = isDisabled;
+      });
+    };
+
+    const setOpen = (isOpen) => {
+      dock.dataset.open = isOpen ? "true" : "false";
+      triggers.forEach((trigger) => {
+        trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+      if (panel) panel.hidden = !isOpen;
+    };
+
+    sync(themeStore.read());
+    setOpen(false);
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        setOpen(dock.dataset.open !== "true");
+      });
+    });
+
+    if (close) {
+      close.addEventListener("click", () => {
+        setOpen(false);
+      });
+    }
+
+    options.forEach((option) => {
+      option.addEventListener("click", () => {
+        const prop = option.getAttribute("data-theme-prop");
+        const value = option.getAttribute("data-theme-value");
+        if (!prop || !value) return;
+
+        const nextTheme = {
+          ...themeStore.read(),
+          [prop]: value
+        };
+
+        sync(themeStore.apply(nextTheme, true, { reason: "theme-toggle", changedProp: prop }));
+        setOpen(false);
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (dock.dataset.open !== "true") return;
+      if (!dock.contains(event.target)) setOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
+    });
+
+    window.addEventListener("julie-theme-panel-toggle", (event) => {
+      const requestedState = event?.detail?.open;
+
+      if (typeof requestedState === "boolean") {
+        setOpen(requestedState);
+        return;
+      }
+
+      setOpen(dock.dataset.open !== "true");
+    });
+
+    window.addEventListener("julie-theme-change", (event) => {
+      if (!event.detail) return;
+      sync(event.detail);
+    });
+  })();
+</script>

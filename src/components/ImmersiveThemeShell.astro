@@ -1,0 +1,514 @@
+---
+import ContactForm from "./ContactForm.astro";
+import ErShell from "./ErShell.astro";
+import RetroShell from "./RetroShell.astro";
+import { immersiveRoutes } from "../data/immersiveRoutes";
+import { contactConfig, navLinks, siteMeta, withBase } from "../data/site";
+import "../styles/immersive-shells.css";
+import "../styles/theme-starwars-immersive.css";
+import "../styles/theme-jurassic-immersive.css";
+
+interface Props {
+  pathname?: string;
+}
+
+const { pathname = "/" } = Astro.props;
+const route = immersiveRoutes[pathname] ?? immersiveRoutes["/"];
+const portraitSrc = withBase(contactConfig.headshotPath);
+
+const resolveHref = (href?: string) => (href ? withBase(href) : "#");
+const isExternalHref = (href?: string) => Boolean(href && /^(https?:)?\/\//.test(href));
+const isMailtoHref = (href?: string) => Boolean(href && href.startsWith("mailto:"));
+const isCurrentRoute = (href: string) => href === pathname;
+---
+
+<div class="immersive-theme-hub" data-immersive-hub hidden aria-hidden="true">
+  <section class="immersive-shell immersive-shell--retro" data-immersive-shell="retro" hidden aria-hidden="true">
+    <RetroShell pathname={pathname} />
+  </section>
+
+  <section class="immersive-shell immersive-shell--starwars" data-immersive-shell="starwars" hidden aria-hidden="true">
+    <div class="starwars-shell">
+      <div class="starwars-shell__scene" aria-hidden="true">
+        <span class="starwars-shell__stars"></span>
+        <span class="starwars-shell__planet starwars-shell__planet--a"></span>
+        <span class="starwars-shell__planet starwars-shell__planet--b"></span>
+        <span class="starwars-shell__fighter starwars-shell__fighter--hero"></span>
+        <span class="starwars-shell__fighter starwars-shell__fighter--tie"></span>
+        <span class="starwars-shell__laser starwars-shell__laser--blue"></span>
+        <span class="starwars-shell__laser starwars-shell__laser--red"></span>
+      </div>
+
+      <div class="starwars-shell__viewport">
+        <header class="starwars-shell__masthead">
+          <div class="starwars-shell__brand">
+            <p class="starwars-shell__zone">{route.starwars.zoneLabel}</p>
+            <h2>{siteMeta.name}</h2>
+          </div>
+
+          <nav class="starwars-nav" aria-label="Star Wars navigation">
+            {navLinks.map((item) => (
+              <a
+                href={withBase(item.href)}
+                class:list={{ "is-active": isCurrentRoute(item.href) }}
+                aria-current={isCurrentRoute(item.href) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </header>
+
+        <main class="starwars-shell__content">
+          <section class="starwars-hero">
+            <div class="starwars-hero__copy">
+              <p class="starwars-hero__eyebrow">{route.starwars.hero.eyebrow}</p>
+              <h1>{route.starwars.hero.title}</h1>
+              <p class="starwars-hero__subtitle">{route.starwars.hero.subtitle}</p>
+              <p class="starwars-hero__lede">{route.starwars.hero.lede}</p>
+
+              <div class="starwars-hero__actions">
+                {route.starwars.hero.primaryAction ? (
+                  route.starwars.hero.primaryAction.action === "print" ? (
+                    <button class="starwars-action" type="button" onclick="window.print()">
+                      {route.starwars.hero.primaryAction.label}
+                    </button>
+                  ) : (
+                    <a
+                      class="starwars-action"
+                      href={resolveHref(route.starwars.hero.primaryAction.href)}
+                      target={isExternalHref(route.starwars.hero.primaryAction.href) ? "_blank" : undefined}
+                      rel={isExternalHref(route.starwars.hero.primaryAction.href) ? "noreferrer" : undefined}
+                    >
+                      {route.starwars.hero.primaryAction.label}
+                    </a>
+                  )
+                ) : null}
+
+                {route.starwars.hero.secondaryAction ? (
+                  route.starwars.hero.secondaryAction.action === "print" ? (
+                    <button class="starwars-action starwars-action--secondary" type="button" onclick="window.print()">
+                      {route.starwars.hero.secondaryAction.label}
+                    </button>
+                  ) : (
+                    <a
+                      class="starwars-action starwars-action--secondary"
+                      href={resolveHref(route.starwars.hero.secondaryAction.href)}
+                      target={isExternalHref(route.starwars.hero.secondaryAction.href) ? "_blank" : undefined}
+                      rel={isExternalHref(route.starwars.hero.secondaryAction.href) ? "noreferrer" : undefined}
+                    >
+                      {route.starwars.hero.secondaryAction.label}
+                    </a>
+                  )
+                ) : null}
+              </div>
+
+              <ul class="starwars-tags">
+                {route.starwars.hero.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            </div>
+
+            <aside class="starwars-hero__aside">
+              <div class="starwars-hologram">
+                <div class="starwars-hologram__portrait">
+                  <img src={portraitSrc} alt="Portrait of Julie Stevens with arms crossed" />
+                </div>
+
+                <div class="starwars-hologram__brief">
+                  {route.starwars.hero.aside.label && <p class="starwars-panel__eyebrow">{route.starwars.hero.aside.label}</p>}
+                  <h2>{route.starwars.hero.aside.title}</h2>
+                  {route.starwars.hero.aside.text && <p>{route.starwars.hero.aside.text}</p>}
+                  {route.starwars.hero.aside.link ? (
+                    <a
+                      class="starwars-panel__link"
+                      href={resolveHref(route.starwars.hero.aside.link.href)}
+                      target={route.starwars.hero.aside.link.external ? "_blank" : undefined}
+                      rel={route.starwars.hero.aside.link.external ? "noreferrer" : undefined}
+                    >
+                      {route.starwars.hero.aside.link.label}
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            </aside>
+          </section>
+
+          {route.starwars.metrics?.length ? (
+            <section class="starwars-metrics" aria-label="Star Wars route metrics">
+              {route.starwars.metrics.map((metric) => (
+                <article class="starwars-metric">
+                  <p class="starwars-metric__value">{metric.value}</p>
+                  <h3>{metric.label}</h3>
+                  <p>{metric.detail}</p>
+                </article>
+              ))}
+            </section>
+          ) : null}
+
+          {route.starwars.sections.map((section) => (
+            <section class="starwars-sector">
+              <div class="starwars-sector__heading">
+                <p class="starwars-sector__eyebrow">{section.label}</p>
+                <h2>{section.title}</h2>
+                {section.intro && <p>{section.intro}</p>}
+              </div>
+
+              <div class="starwars-sector__grid">
+                {section.panels.map((panel) => (
+                  <article class="starwars-panel">
+                    {panel.label && <p class="starwars-panel__eyebrow">{panel.label}</p>}
+                    <h3>{panel.title}</h3>
+                    {panel.text && <p>{panel.text}</p>}
+
+                    {panel.meta?.length ? (
+                      <dl class="starwars-panel__meta">
+                        {panel.meta.map((item) => (
+                          <div>
+                            <dt>{item.label}</dt>
+                            <dd>{item.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    ) : null}
+
+                    {panel.list?.length ? (
+                      <ul class="starwars-panel__list">
+                        {panel.list.map((item) => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+
+                    {panel.link ? (
+                      <a
+                        class="starwars-panel__link"
+                        href={resolveHref(panel.link.href)}
+                        target={panel.link.external ? "_blank" : undefined}
+                        rel={panel.link.external ? "noreferrer" : undefined}
+                      >
+                        {panel.link.label}
+                      </a>
+                    ) : null}
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+
+          {route.starwars.contactCards?.length ? (
+            <section class="starwars-sector">
+              <div class="starwars-sector__heading">
+                <p class="starwars-sector__eyebrow">Communications Grid</p>
+                <h2>Employer outreach channels</h2>
+              </div>
+
+              <div class="starwars-sector__grid">
+                {route.starwars.contactCards.map((panel) => (
+                  <article class="starwars-panel">
+                    {panel.label && <p class="starwars-panel__eyebrow">{panel.label}</p>}
+                    <h3>{panel.title}</h3>
+                    {panel.text && <p>{panel.text}</p>}
+                    {panel.link ? (
+                      <a
+                        class="starwars-panel__link"
+                        href={resolveHref(panel.link.href)}
+                        target={panel.link.external || isMailtoHref(panel.link.href) ? "_blank" : undefined}
+                        rel={panel.link.external ? "noreferrer" : undefined}
+                      >
+                        {panel.link.label}
+                      </a>
+                    ) : null}
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {route.starwars.renderForm ? (
+            <section class="starwars-sector">
+              <div class="starwars-sector__heading">
+                <p class="starwars-sector__eyebrow">Employer Transmission</p>
+                <h2>Send an inquiry directly</h2>
+              </div>
+              <ContactForm endpoint={contactConfig.formEndpoint} />
+            </section>
+          ) : null}
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <section class="immersive-shell immersive-shell--jurassic" data-immersive-shell="jurassic" hidden aria-hidden="true">
+    <div class="jurassic-shell">
+      <div class="jurassic-shell__scene" aria-hidden="true">
+        <span class="jurassic-shell__mist"></span>
+        <span class="jurassic-shell__canopy jurassic-shell__canopy--a"></span>
+        <span class="jurassic-shell__canopy jurassic-shell__canopy--b"></span>
+        <span class="jurassic-shell__mountain jurassic-shell__mountain--a"></span>
+        <span class="jurassic-shell__mountain jurassic-shell__mountain--b"></span>
+        <span class="jurassic-shell__trex"></span>
+        <span class="jurassic-shell__longneck"></span>
+        <span class="jurassic-shell__jeep"></span>
+      </div>
+
+      <div class="jurassic-shell__viewport">
+        <header class="jurassic-shell__masthead">
+          <div class="jurassic-shell__brand">
+            <p class="jurassic-shell__zone">{route.jurassic.zoneLabel}</p>
+            <h2>{siteMeta.name}</h2>
+          </div>
+
+          <nav class="jurassic-nav" aria-label="Jurassic navigation">
+            {navLinks.map((item) => (
+              <a
+                href={withBase(item.href)}
+                class:list={{ "is-active": isCurrentRoute(item.href) }}
+                aria-current={isCurrentRoute(item.href) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </header>
+
+        <main class="jurassic-shell__content">
+          <section class="jurassic-arrival">
+            <div class="jurassic-arrival__copy">
+              <p class="jurassic-arrival__eyebrow">{route.jurassic.hero.eyebrow}</p>
+              <h1>{route.jurassic.hero.title}</h1>
+              <p class="jurassic-arrival__subtitle">{route.jurassic.hero.subtitle}</p>
+              <p class="jurassic-arrival__lede">{route.jurassic.hero.lede}</p>
+
+              <div class="jurassic-arrival__actions">
+                {route.jurassic.hero.primaryAction ? (
+                  route.jurassic.hero.primaryAction.action === "print" ? (
+                    <button class="jurassic-action" type="button" onclick="window.print()">
+                      {route.jurassic.hero.primaryAction.label}
+                    </button>
+                  ) : (
+                    <a
+                      class="jurassic-action"
+                      href={resolveHref(route.jurassic.hero.primaryAction.href)}
+                      target={isExternalHref(route.jurassic.hero.primaryAction.href) ? "_blank" : undefined}
+                      rel={isExternalHref(route.jurassic.hero.primaryAction.href) ? "noreferrer" : undefined}
+                    >
+                      {route.jurassic.hero.primaryAction.label}
+                    </a>
+                  )
+                ) : null}
+
+                {route.jurassic.hero.secondaryAction ? (
+                  route.jurassic.hero.secondaryAction.action === "print" ? (
+                    <button class="jurassic-action jurassic-action--secondary" type="button" onclick="window.print()">
+                      {route.jurassic.hero.secondaryAction.label}
+                    </button>
+                  ) : (
+                    <a
+                      class="jurassic-action jurassic-action--secondary"
+                      href={resolveHref(route.jurassic.hero.secondaryAction.href)}
+                      target={isExternalHref(route.jurassic.hero.secondaryAction.href) ? "_blank" : undefined}
+                      rel={isExternalHref(route.jurassic.hero.secondaryAction.href) ? "noreferrer" : undefined}
+                    >
+                      {route.jurassic.hero.secondaryAction.label}
+                    </a>
+                  )
+                ) : null}
+              </div>
+
+              <ul class="jurassic-tags">
+                {route.jurassic.hero.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            </div>
+
+            <aside class="jurassic-arrival__aside">
+              <div class="jurassic-observation">
+                <div class="jurassic-observation__portrait">
+                  <img src={portraitSrc} alt="Portrait of Julie Stevens with arms crossed" />
+                </div>
+
+                <div class="jurassic-observation__brief">
+                  {route.jurassic.hero.aside.label && <p class="jurassic-panel__eyebrow">{route.jurassic.hero.aside.label}</p>}
+                  <h2>{route.jurassic.hero.aside.title}</h2>
+                  {route.jurassic.hero.aside.text && <p>{route.jurassic.hero.aside.text}</p>}
+                  {route.jurassic.hero.aside.link ? (
+                    <a
+                      class="jurassic-panel__link"
+                      href={resolveHref(route.jurassic.hero.aside.link.href)}
+                      target={route.jurassic.hero.aside.link.external ? "_blank" : undefined}
+                      rel={route.jurassic.hero.aside.link.external ? "noreferrer" : undefined}
+                    >
+                      {route.jurassic.hero.aside.link.label}
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            </aside>
+          </section>
+
+          {route.jurassic.metrics?.length ? (
+            <section class="jurassic-metrics" aria-label="Jurassic route metrics">
+              {route.jurassic.metrics.map((metric) => (
+                <article class="jurassic-metric">
+                  <p class="jurassic-metric__value">{metric.value}</p>
+                  <h3>{metric.label}</h3>
+                  <p>{metric.detail}</p>
+                </article>
+              ))}
+            </section>
+          ) : null}
+
+          {route.jurassic.sections.map((section) => (
+            <section class="jurassic-sector">
+              <div class="jurassic-sector__heading">
+                <p class="jurassic-sector__eyebrow">{section.label}</p>
+                <h2>{section.title}</h2>
+                {section.intro && <p>{section.intro}</p>}
+              </div>
+
+              <div class="jurassic-sector__grid">
+                {section.panels.map((panel) => (
+                  <article class="jurassic-panel">
+                    {panel.label && <p class="jurassic-panel__eyebrow">{panel.label}</p>}
+                    <h3>{panel.title}</h3>
+                    {panel.text && <p>{panel.text}</p>}
+
+                    {panel.meta?.length ? (
+                      <dl class="jurassic-panel__meta">
+                        {panel.meta.map((item) => (
+                          <div>
+                            <dt>{item.label}</dt>
+                            <dd>{item.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    ) : null}
+
+                    {panel.list?.length ? (
+                      <ul class="jurassic-panel__list">
+                        {panel.list.map((item) => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+
+                    {panel.link ? (
+                      <a
+                        class="jurassic-panel__link"
+                        href={resolveHref(panel.link.href)}
+                        target={panel.link.external ? "_blank" : undefined}
+                        rel={panel.link.external ? "noreferrer" : undefined}
+                      >
+                        {panel.link.label}
+                      </a>
+                    ) : null}
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+
+          {route.jurassic.contactCards?.length ? (
+            <section class="jurassic-sector">
+              <div class="jurassic-sector__heading">
+                <p class="jurassic-sector__eyebrow">Communications Lodge</p>
+                <h2>Employer outreach channels</h2>
+              </div>
+
+              <div class="jurassic-sector__grid">
+                {route.jurassic.contactCards.map((panel) => (
+                  <article class="jurassic-panel">
+                    {panel.label && <p class="jurassic-panel__eyebrow">{panel.label}</p>}
+                    <h3>{panel.title}</h3>
+                    {panel.text && <p>{panel.text}</p>}
+                    {panel.link ? (
+                      <a
+                        class="jurassic-panel__link"
+                        href={resolveHref(panel.link.href)}
+                        target={panel.link.external || isMailtoHref(panel.link.href) ? "_blank" : undefined}
+                        rel={panel.link.external ? "noreferrer" : undefined}
+                      >
+                        {panel.link.label}
+                      </a>
+                    ) : null}
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {route.jurassic.renderForm ? (
+            <section class="jurassic-sector">
+              <div class="jurassic-sector__heading">
+                <p class="jurassic-sector__eyebrow">Employer Inquiry Station</p>
+                <h2>Send an inquiry directly</h2>
+              </div>
+              <ContactForm endpoint={contactConfig.formEndpoint} />
+            </section>
+          ) : null}
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <section class="immersive-shell immersive-shell--er" data-immersive-shell="er" hidden aria-hidden="true">
+    <ErShell pathname={pathname} />
+  </section>
+</div>
+
+<script is:inline>
+  (() => {
+    const themeStore = window.__JULIE_THEME__;
+    const hub = document.querySelector("[data-immersive-hub]");
+    const siteCore = document.querySelector("[data-site-core]");
+    const skipLink = document.querySelector(".skip-link");
+
+    if (!themeStore || !hub || !siteCore) return;
+
+    const shells = Array.from(hub.querySelectorAll("[data-immersive-shell]"));
+    const immersiveThemes = new Set(["retro", "starwars", "jurassic", "er"]);
+
+    const sync = (theme) => {
+      const activeTheme = theme?.creativeTheme;
+      const immersiveActive = immersiveThemes.has(activeTheme);
+
+      hub.hidden = !immersiveActive;
+      hub.setAttribute("aria-hidden", immersiveActive ? "false" : "true");
+      hub.dataset.activeTheme = immersiveActive ? activeTheme : "none";
+
+      shells.forEach((shell) => {
+        const shellTheme = shell.getAttribute("data-immersive-shell");
+        const isActive = immersiveActive && shellTheme === activeTheme;
+        shell.hidden = !isActive;
+        shell.setAttribute("aria-hidden", isActive ? "false" : "true");
+        shell.dataset.active = isActive ? "true" : "false";
+      });
+
+      siteCore.dataset.immersiveHidden = immersiveActive ? "true" : "false";
+      siteCore.setAttribute("aria-hidden", immersiveActive ? "true" : "false");
+
+      if (immersiveActive) {
+        siteCore.setAttribute("inert", "");
+      } else {
+        siteCore.removeAttribute("inert");
+      }
+
+      if (skipLink) {
+        skipLink.hidden = immersiveActive;
+      }
+
+      document.body.dataset.immersiveActive = immersiveActive ? "true" : "false";
+      document.body.dataset.immersiveTheme = immersiveActive ? activeTheme : "none";
+    };
+
+    sync(themeStore.read());
+
+    window.addEventListener("julie-theme-change", (event) => {
+      if (!event.detail) return;
+      sync(event.detail);
+    });
+  })();
+</script>

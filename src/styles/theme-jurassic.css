@@ -1,0 +1,593 @@
+.jurassic-shell {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 14% 14%, rgba(255, 214, 118, 0.12), transparent 16%),
+    radial-gradient(circle at 82% 16%, rgba(94, 143, 67, 0.16), transparent 18%),
+    linear-gradient(180deg, #162315 0%, #24321d 38%, #0d170e 100%);
+  color: #f7e7b6;
+  font-family: "Work Sans", "Avenir Next", sans-serif;
+}
+
+.jurassic-shell__scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.jurassic-shell__mist,
+.jurassic-shell__mist::before,
+.jurassic-shell__mist::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% 0;
+  height: 44%;
+  background:
+    radial-gradient(circle at 14% 56%, rgba(239, 235, 207, 0.1), transparent 24%),
+    radial-gradient(circle at 52% 42%, rgba(239, 235, 207, 0.08), transparent 24%),
+    radial-gradient(circle at 86% 54%, rgba(239, 235, 207, 0.1), transparent 22%);
+  opacity: 0.9;
+  animation: jurassic-mist 18s ease-in-out infinite alternate;
+}
+
+.jurassic-shell__mist::before {
+  transform: translateY(-18%);
+  opacity: 0.48;
+}
+
+.jurassic-shell__mist::after {
+  transform: translateY(-30%);
+  opacity: 0.26;
+}
+
+.jurassic-shell__canopy,
+.jurassic-shell__mountain,
+.jurassic-shell__trex,
+.jurassic-shell__longneck,
+.jurassic-shell__jeep {
+  position: absolute;
+}
+
+.jurassic-shell__canopy--a,
+.jurassic-shell__canopy--b {
+  top: -2%;
+  width: 110%;
+  height: 22%;
+  left: -5%;
+  background:
+    radial-gradient(circle at 6% 52%, rgba(28, 54, 22, 0.98) 0 20%, transparent 21%),
+    radial-gradient(circle at 22% 24%, rgba(45, 74, 34, 0.96) 0 19%, transparent 20%),
+    radial-gradient(circle at 38% 54%, rgba(29, 56, 23, 0.98) 0 22%, transparent 23%),
+    radial-gradient(circle at 54% 22%, rgba(46, 78, 35, 0.96) 0 19%, transparent 20%),
+    radial-gradient(circle at 70% 52%, rgba(29, 56, 23, 0.98) 0 22%, transparent 23%),
+    radial-gradient(circle at 88% 28%, rgba(44, 74, 34, 0.96) 0 18%, transparent 19%);
+}
+
+.jurassic-shell__canopy--a {
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.24));
+  animation: jurassic-canopy-sway 13s ease-in-out infinite alternate;
+}
+
+.jurassic-shell__canopy--b {
+  top: 8%;
+  opacity: 0.5;
+  transform: scaleX(-1);
+  animation: jurassic-canopy-sway 16s ease-in-out infinite alternate;
+}
+
+.jurassic-shell__mountain--a,
+.jurassic-shell__mountain--b {
+  bottom: 20%;
+  width: 46%;
+  height: 32%;
+  background: linear-gradient(180deg, rgba(70, 96, 54, 0.24), rgba(22, 35, 18, 0.54));
+  clip-path: polygon(0 100%, 36% 24%, 52% 54%, 70% 8%, 100% 100%);
+}
+
+.jurassic-shell__mountain--a {
+  left: 0;
+}
+
+.jurassic-shell__mountain--b {
+  right: -4%;
+}
+
+.jurassic-shell__trex {
+  left: 6%;
+  bottom: 14%;
+  width: 26rem;
+  height: 18rem;
+  background: rgba(7, 11, 7, 0.54);
+  clip-path: polygon(0 88%, 10% 58%, 18% 42%, 31% 20%, 46% 6%, 64% 0, 76% 10%, 80% 18%, 72% 26%, 76% 34%, 90% 40%, 96% 56%, 84% 64%, 74% 66%, 72% 84%, 66% 100%, 56% 100%, 58% 78%, 42% 82%, 28% 100%, 16% 100%, 20% 82%, 6% 74%);
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.28));
+}
+
+.jurassic-shell__longneck {
+  right: 18%;
+  bottom: 28%;
+  width: 18rem;
+  height: 22rem;
+  background: rgba(10, 18, 9, 0.38);
+  clip-path: polygon(36% 100%, 42% 62%, 56% 46%, 62% 18%, 76% 0, 90% 10%, 86% 26%, 78% 38%, 78% 62%, 70% 78%, 78% 100%);
+}
+
+.jurassic-shell__jeep {
+  right: 10%;
+  bottom: 9%;
+  width: 15rem;
+  height: 6.4rem;
+  border-radius: 1.2rem;
+  background: linear-gradient(180deg, rgba(172, 34, 25, 0.96), rgba(104, 24, 18, 0.96));
+  border: 0.18rem solid rgba(255, 213, 110, 0.72);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 177, 0.24),
+    0 16px 22px rgba(63, 16, 11, 0.3);
+}
+
+.jurassic-shell__jeep::before {
+  content: "";
+  position: absolute;
+  left: 16%;
+  top: -32%;
+  width: 40%;
+  height: 42%;
+  border-radius: 0.8rem 0.8rem 0.4rem 0.4rem;
+  background: linear-gradient(180deg, rgba(172, 34, 25, 0.96), rgba(104, 24, 18, 0.96));
+  border: 0.18rem solid rgba(255, 213, 110, 0.72);
+}
+
+.jurassic-shell__jeep::after {
+  content: "";
+  position: absolute;
+  inset: auto 10% -22% 10%;
+  height: 38%;
+  background:
+    radial-gradient(circle at 18% 50%, rgba(8, 12, 8, 0.98) 0 22%, transparent 23%),
+    radial-gradient(circle at 82% 50%, rgba(8, 12, 8, 0.98) 0 22%, transparent 23%),
+    linear-gradient(90deg, rgba(255, 208, 97, 0.94) 0 18%, transparent 18% 28%, rgba(255, 208, 97, 0.94) 28% 46%, transparent 46%);
+}
+
+.jurassic-shell__viewport {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  overflow: auto;
+  padding: 1.6rem 1.4rem 3rem;
+}
+
+.jurassic-shell__masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: min(88rem, calc(100vw - 2rem));
+  margin: 0 auto;
+  padding: 0.8rem 0.4rem 1.2rem;
+}
+
+.jurassic-shell__brand {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.jurassic-shell__brand h2 {
+  margin: 0;
+  color: #ffe5a0;
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 0 rgba(35, 21, 8, 0.36);
+}
+
+.jurassic-shell__zone {
+  margin: 0;
+  color: #ffc95d;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.jurassic-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+.jurassic-nav a {
+  color: #f6ebc7;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.82rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255, 206, 97, 0.26);
+  border-radius: 0.95rem;
+  background:
+    linear-gradient(180deg, rgba(255, 206, 97, 0.22), rgba(117, 30, 19, 0.94) 30%, rgba(53, 22, 15, 0.92) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 233, 168, 0.24),
+    0 10px 16px rgba(63, 16, 11, 0.18);
+}
+
+.jurassic-nav a.is-active,
+.jurassic-nav a:hover,
+.jurassic-nav a:focus-visible {
+  color: #fff7dd;
+  background:
+    linear-gradient(180deg, rgba(255, 221, 136, 0.28), rgba(151, 34, 20, 0.96) 28%, rgba(62, 24, 16, 0.94) 100%);
+}
+
+.jurassic-shell__content {
+  width: min(88rem, calc(100vw - 2rem));
+  margin: 0 auto;
+  display: grid;
+  gap: 1.35rem;
+}
+
+.jurassic-arrival,
+.jurassic-metrics,
+.jurassic-sector__grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.jurassic-arrival {
+  grid-template-columns: minmax(0, 1.3fr) minmax(20rem, 0.9fr);
+  align-items: stretch;
+}
+
+.jurassic-arrival__copy,
+.jurassic-observation,
+.jurassic-metric,
+.jurassic-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 206, 97, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 214, 118, 0.12), rgba(20, 32, 18, 0.04) 16%),
+    linear-gradient(135deg, rgba(41, 71, 32, 0.4), rgba(15, 24, 13, 0.62)),
+    rgba(15, 24, 13, 0.78);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 239, 196, 0.05),
+    inset 0 0 68px rgba(68, 110, 48, 0.14),
+    0 20px 44px rgba(8, 14, 7, 0.3);
+}
+
+.jurassic-arrival__copy::before,
+.jurassic-observation::before,
+.jurassic-metric::before,
+.jurassic-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.9rem;
+  background: repeating-linear-gradient(135deg, rgba(255, 208, 98, 0.92) 0 12px, rgba(55, 39, 14, 0.96) 12px 24px);
+  pointer-events: none;
+}
+
+.jurassic-arrival__copy,
+.jurassic-observation {
+  padding: 1.55rem;
+}
+
+.jurassic-arrival__eyebrow,
+.jurassic-sector__eyebrow,
+.jurassic-panel__eyebrow {
+  margin: 0;
+  color: #ffc95d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.jurassic-arrival__copy h1,
+.jurassic-sector__heading h2,
+.jurassic-observation__brief h2,
+.jurassic-panel h3 {
+  margin: 0;
+  color: #ffe5a0;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.04;
+  text-transform: uppercase;
+  text-shadow: 0 2px 0 rgba(35, 21, 8, 0.34);
+}
+
+.jurassic-arrival__copy h1 {
+  margin-top: 0.65rem;
+  font-size: clamp(2.7rem, 4.8vw, 5rem);
+  text-wrap: balance;
+}
+
+.jurassic-arrival__subtitle {
+  margin: 0.75rem 0 0;
+  color: #d3dfbd;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.jurassic-arrival__lede {
+  margin: 1rem 0 0;
+  max-width: 46rem;
+  color: #eef6dc;
+  font-size: 1.08rem;
+}
+
+.jurassic-arrival__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.35rem;
+}
+
+.jurassic-action {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.1rem;
+  padding: 0.95rem 1.2rem;
+  border: 1px solid rgba(255, 206, 97, 0.26);
+  border-radius: 1rem;
+  background:
+    linear-gradient(180deg, rgba(255, 206, 97, 0.24), rgba(117, 30, 19, 0.94) 30%, rgba(53, 22, 15, 0.92) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 233, 168, 0.24),
+    0 10px 20px rgba(63, 16, 11, 0.22);
+  color: #fff5d5;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.jurassic-action--secondary {
+  background: linear-gradient(180deg, rgba(80, 126, 55, 0.88), rgba(31, 54, 22, 0.94));
+  color: #eff8de;
+}
+
+.jurassic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jurassic-tags li {
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 206, 97, 0.18);
+  background: linear-gradient(180deg, rgba(22, 35, 19, 0.88), rgba(13, 21, 11, 0.88));
+  color: #edf5db;
+}
+
+.jurassic-observation {
+  display: grid;
+  gap: 1rem;
+}
+
+.jurassic-observation__portrait {
+  overflow: hidden;
+  min-height: 22rem;
+  border-radius: 1.1rem;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(255, 220, 135, 0.24), transparent 36%),
+    linear-gradient(180deg, rgba(31, 51, 25, 0.78), rgba(12, 19, 10, 0.9));
+}
+
+.jurassic-observation__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 24px 38px rgba(0, 0, 0, 0.34));
+}
+
+.jurassic-observation__brief {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.jurassic-observation__brief p {
+  margin: 0;
+  color: #eef6dc;
+}
+
+.jurassic-panel__link {
+  color: #ffc95d;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.jurassic-metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.jurassic-metric {
+  padding: 1.25rem 1.2rem;
+}
+
+.jurassic-metric__value {
+  margin: 0;
+  color: #ffe5a0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.jurassic-metric h3,
+.jurassic-panel h3 {
+  font-size: 1.18rem;
+  text-wrap: balance;
+}
+
+.jurassic-metric h3 {
+  margin: 0.55rem 0 0;
+}
+
+.jurassic-metric p,
+.jurassic-panel p,
+.jurassic-sector__heading p {
+  color: #eef6dc;
+}
+
+.jurassic-sector {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.jurassic-sector__heading {
+  display: grid;
+  gap: 0.35rem;
+  padding-inline: 0.2rem;
+}
+
+.jurassic-sector__heading h2 {
+  font-size: clamp(1.6rem, 2.8vw, 2.7rem);
+  text-wrap: balance;
+}
+
+.jurassic-sector__grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.jurassic-panel {
+  padding: 1.35rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.jurassic-panel__meta {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+}
+
+.jurassic-panel__meta div {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.jurassic-panel__meta dt {
+  color: #ffc95d;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.jurassic-panel__meta dd {
+  margin: 0;
+  color: #fff3cf;
+  font-weight: 600;
+}
+
+.jurassic-panel__list {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding-left: 1.15rem;
+  color: #eef6dc;
+}
+
+.jurassic-shell .contact-form,
+.jurassic-shell .muted-card {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 206, 97, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 214, 118, 0.12), rgba(20, 32, 18, 0.04) 16%),
+    linear-gradient(135deg, rgba(41, 71, 32, 0.4), rgba(15, 24, 13, 0.62)),
+    rgba(15, 24, 13, 0.78);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 239, 196, 0.05),
+    inset 0 0 68px rgba(68, 110, 48, 0.14),
+    0 20px 44px rgba(8, 14, 7, 0.3);
+}
+
+.jurassic-shell .field span,
+.jurassic-shell .small-note,
+.jurassic-shell .form-status {
+  color: #eef6dc;
+}
+
+.jurassic-shell .field input,
+.jurassic-shell .field select,
+.jurassic-shell .field textarea {
+  border: 1px solid rgba(255, 206, 97, 0.18);
+  background: rgba(12, 21, 11, 0.92);
+  color: #fff7dd;
+}
+
+.jurassic-shell .button {
+  border: 1px solid rgba(255, 206, 97, 0.26);
+  background:
+    linear-gradient(180deg, rgba(255, 206, 97, 0.24), rgba(117, 30, 19, 0.94) 30%, rgba(53, 22, 15, 0.92) 100%);
+  color: #fff5d5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+@keyframes jurassic-mist {
+  from {
+    transform: translateX(-1.5%);
+  }
+
+  to {
+    transform: translateX(1.5%);
+  }
+}
+
+@keyframes jurassic-canopy-sway {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(10px);
+  }
+}
+
+@media (max-width: 1100px) {
+  .jurassic-arrival,
+  .jurassic-metrics,
+  .jurassic-sector__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .jurassic-shell__viewport {
+    padding-inline: 0.9rem;
+  }
+
+  .jurassic-shell__masthead,
+  .jurassic-arrival,
+  .jurassic-metrics,
+  .jurassic-sector__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .jurassic-shell__masthead {
+    padding-inline: 0.2rem;
+  }
+
+  .jurassic-nav {
+    justify-content: flex-start;
+  }
+
+  .jurassic-shell__trex,
+  .jurassic-shell__longneck,
+  .jurassic-shell__jeep {
+    opacity: 0.6;
+  }
+}
